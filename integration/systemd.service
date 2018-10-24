@@ -1,0 +1,13 @@
+[Unit]
+Description=Host logging
+Wants=obmc-console@ttyVUART0.service
+After=obmc-console@ttyVUART0.service
+
+[Service]
+ExecStart=/usr/bin/hostlogger
+Restart=always
+Type=dbus
+BusName=xyz.openbmc_project.HostLogger
+
+[Install]
+WantedBy=obmc-standby.target

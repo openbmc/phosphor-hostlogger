@@ -1,0 +1,17 @@
+#!/bin/bash
+#
+# config: 123 20
+# @brief: Collect host's logs
+#
+
+. $DREPORT_INCLUDE/functions
+
+desc="Logs from host"
+file_name="/var/lib/obmc/hostlogs"
+
+# Flush currently collected messages
+busctl --no-pager --verbose call \
+    xyz.openbmc_project.HostLogger /xyz/openbmc_project/HostLogger \
+    xyz.openbmc_project.HostLogger Flush
+
+add_copy_file "$file_name" "$desc"

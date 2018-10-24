@@ -1,0 +1,10 @@
+description: >
+    Implementation of the host log storage service.
+
+methods:
+    - name: Flush
+      description: >
+        Flush currently collected logs to the file
+        and switch to the next one.
+      errors:
+        - xyz.openbmc_project.Common.File.Error.Write
