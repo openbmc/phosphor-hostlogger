@@ -1,0 +1,9 @@
+Code-Review+1: Alexander Filippov <a.filippov@yadro.com>
+Code-Review+1: Alexander Amelkin <a.amelkin@yadro.com>
+Code-Review+2: Brad Bishop <bradleyb@fuzziesquirrel.com>
+Verified+1: Brad Bishop <bradleyb@fuzziesquirrel.com>
+Submitted-by: Brad Bishop <bradleyb@fuzziesquirrel.com>
+Submitted-at: Fri, 02 Nov 2018 12:59:44 +0000
+Reviewed-on: https://gerrit.openbmc-project.xyz/15176
+Project: openbmc/phosphor-hostlogger
+Branch: refs/heads/master
