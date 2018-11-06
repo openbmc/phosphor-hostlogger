@@ -139,7 +139,7 @@ void DbusWatcher::hostStateHandler(sdbusplus::message::message& msg)
     if (itc != conds_.end()) {
         const auto itp = properties.find(itc->second.property);
         if (itp != properties.end()) {
-            const auto& propVal = itp->second.get<std::string>();
+            const auto& propVal = sdbusplus::message::variant_ns::get<std::string>(itp->second);
             needFlush = itc->second.values.find(propVal) != itc->second.values.end();
         }
     }
