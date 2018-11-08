@@ -11,7 +11,7 @@ output.
 ```
 +-------------+                                       +----------------+
 |     Host    | State  +---------------------+ Event  |  Host Logger   |
-|             +------->|        D-Bus        |------->|                |
+|             |------->|        D-Bus        |------->|                |
 |             |        +---------------------+        | +------------+ |
 |             |                                  D +--->| Log buffer | |
 |             |        +---------------------+   a |  | +------+-----+ |
@@ -65,16 +65,8 @@ buffer by passing `0` for both of these options.
 
 ### File rotation policy
 - `--rotate`: Set the maximum number of files stored on the flash memory.
-  Default value is `10`. The service will remove the oldest files during buffer
-  the flush procedure.
-
-
-## Integration
-Directory "integration" contains example files used to integrate the service
-into OpenBMC system:
-- `systemd.service`: systemd unit file used to describe the service;
-- `dreport.plugin`: plugin for dreport module, used to add host's logs into
-  a dump archive.
+  Default value is `10`. The service will remove the oldest files during the
+  buffer flush procedure.
 
 ## D-Bus
 The service provides an implementation of a D-Bus interface
