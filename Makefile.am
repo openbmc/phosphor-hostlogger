@@ -26,6 +26,12 @@ hostlogger_LDADD = $(SDBUSPLUS_LIBS) $(PHOSPHOR_DBUS_INTERFACES_LIBS)
 BUILT_SOURCES = $(GENERATED_HPP) $(GENERATED_CPP)
 CLEANFILES = $(BUILT_SOURCES)
 
+if HAVE_SYSTEMD
+SYSTEMD_UNIT = hostlogger.service
+systemdsystemunit_DATA = $(SYSTEMD_UNIT)
+CLEANFILES += $(SYSTEMD_UNIT)
+endif
+
 $(GENERATED_HPP): $(YAML_IFACE)
 	@mkdir -p $(@D)
 	$(SDBUSPLUSPLUS) -r $(srcdir) interface server-header $(DBUS_IFACE) > $@
