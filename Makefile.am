@@ -39,27 +39,7 @@ CLEANFILES += $(SYSTEMD_UNIT)
 endif  # HAVE_SYSTEMD
 
 if HAVE_DREPORT
-DREPORT_SHARE = $(datarootdir)/dreport.d
 CLEANFILES += hostlogger.dreport
-
-install-data-hook:
-	install -d $(DESTDIR)$(DREPORT_SHARE)/plugins.d
-	install -m 0755 hostlogger.dreport $(DESTDIR)$(DREPORT_SHARE)/plugins.d/hostlogger
-	install -d $(DESTDIR)$(DREPORT_SHARE)/pl_core.d
-	ln -sr $(DESTDIR)$(DREPORT_SHARE)/plugins.d/hostlogger \
-		$(DESTDIR)$(DREPORT_SHARE)/pl_core.d/hostlogger
-	install -d $(DESTDIR)$(DREPORT_SHARE)/pl_elog.d
-	ln -sr $(DESTDIR)$(DREPORT_SHARE)/plugins.d/hostlogger \
-		$(DESTDIR)$(DREPORT_SHARE)/pl_elog.d/hostlogger
-	install -d $(DESTDIR)$(DREPORT_SHARE)/pl_user.d
-	ln -sr $(DESTDIR)$(DREPORT_SHARE)/plugins.d/hostlogger \
-		$(DESTDIR)$(DREPORT_SHARE)/pl_user.d/hostlogger
-
-uninstall-hook:
-	rm -f $(DESTDIR)$(DREPORT_SHARE)/plugins.d/hostlogger \
-		$(DESTDIR)$(DREPORT_SHARE)/pl_core.d/hostlogger \
-		$(DESTDIR)$(DREPORT_SHARE)/pl_elog.d/hostlogger \
-		$(DESTDIR)$(DREPORT_SHARE)/pl_user.d/hostlogger
 endif  # HAVE_DREPORT
 
 $(GENERATED_HPP): $(YAML_IFACE)

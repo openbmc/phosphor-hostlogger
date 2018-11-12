@@ -80,13 +80,13 @@ AC_DEFINE_UNQUOTED([LOG_ROTATION_LIMIT], [${LOG_ROTATION_LIMIT}])
 
 # dreport integration
 AC_ARG_ENABLE([dreport],
-              [AS_HELP_STRING([--enable-dreport], [enable dreport integration as plugin [yes]])],
+              [AS_HELP_STRING([--enable-dreport], [create dreport plugin script [no]])],
               [case "${enableval}" in
                  yes) dreport=true ;;
                  no)  dreport=false ;;
                  *)   AC_MSG_ERROR([bad value ${enableval} for --enable-dreport]) ;;
                esac],
-              [dreport=true])
+              [dreport=false])
 AM_CONDITIONAL(HAVE_DREPORT, test "x$dreport" = "xtrue")
 
 # Debug build configuration
