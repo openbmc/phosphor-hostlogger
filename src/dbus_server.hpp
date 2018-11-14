@@ -21,12 +21,13 @@
 #pragma once
 
 #include "log_manager.hpp"
+
 #include <xyz/openbmc_project/HostLogger/server.hpp>
 
 /** @brief D-Bus interface name. */
 #define HOSTLOGGER_DBUS_IFACE "xyz.openbmc_project.HostLogger"
 /** @brief D-Bus path. */
-#define HOSTLOGGER_DBUS_PATH  "/xyz/openbmc_project/HostLogger"
+#define HOSTLOGGER_DBUS_PATH "/xyz/openbmc_project/HostLogger"
 
 /** @brief unique_ptr functor to release an event reference. */
 struct EventDeleter
@@ -41,27 +42,29 @@ struct EventDeleter
 using EventPtr = std::unique_ptr<sd_event, EventDeleter>;
 
 // Typedef for super class
-using server_inherit = sdbusplus::server::object_t<sdbusplus::xyz::openbmc_project::server::HostLogger>;
-
+using server_inherit = sdbusplus::server::object_t<
+    sdbusplus::xyz::openbmc_project::server::HostLogger>;
 
 /** @class DbusServer
  *  @brief D-Bus service by host logger.
  */
-class DbusServer: public server_inherit
+class DbusServer : public server_inherit
 {
-public:
+  public:
     /** @brief Constructor.
      *
      *  @param[in] logManager - log manager
      *  @param[in] bus - bus to attach to
-     *  @param[in] path - bath to attach at, optional, default is HOSTLOGGER_DBUS_PATH
+     *  @param[in] path - bath to attach at, optional, default is
+     * HOSTLOGGER_DBUS_PATH
      */
-    DbusServer(LogManager& logManager, sdbusplus::bus::bus& bus, const char* path = HOSTLOGGER_DBUS_PATH);
+    DbusServer(LogManager& logManager, sdbusplus::bus::bus& bus,
+               const char* path = HOSTLOGGER_DBUS_PATH);
 
     // From server_inherit
     void flush();
 
-private:
+  private:
     /** @brief Log manager instance. */
     LogManager& logManager_;
 };

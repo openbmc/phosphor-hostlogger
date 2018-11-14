@@ -19,15 +19,15 @@
  */
 
 #include "dbus_server.hpp"
+
 #include <xyz/openbmc_project/Common/File/error.hpp>
 
-
-DbusServer::DbusServer(LogManager& logManager, sdbusplus::bus::bus& bus, const char* path /*= HOSTLOGGER_DBUS_PATH*/)
-: server_inherit(bus, path),
-  logManager_(logManager)
+DbusServer::DbusServer(LogManager& logManager, sdbusplus::bus::bus& bus,
+                       const char* path /*= HOSTLOGGER_DBUS_PATH*/) :
+    server_inherit(bus, path),
+    logManager_(logManager)
 {
 }
-
 
 void DbusServer::flush()
 {

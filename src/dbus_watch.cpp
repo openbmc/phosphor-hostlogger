@@ -18,11 +18,13 @@
  * limitations under the License.
  */
 
-#include "config.hpp"
 #include "dbus_watch.hpp"
+
+#include "config.hpp"
+
+#include <chrono>
 #include <set>
 #include <string>
-#include <chrono>
 
 // D-Bus path to the host state object
 #define DBUS_HOST_OBJECT_PATH "/xyz/openbmc_project/state/host0"
@@ -31,25 +33,21 @@
 // positive code is not an error in the systemd dbus implementation.
 #define DBUS_RC_TO_ERR(c) (c = (c <= 0 ? -c : 0))
 
-
-DbusWatcher::DbusWatcher(LogManager& logManager, sdbusplus::bus::bus& bus)
-: logManager_(logManager),
-  bus_(bus)
+DbusWatcher::DbusWatcher(LogManager& logManager, sdbusplus::bus::bus& bus) :
+    logManager_(logManager), bus_(bus)
 {
 }
-
 
 int DbusWatcher::initialize()
 {
     int rc;
 
     // Add IO callback for host's log stream socket
-    rc = sd_event_add_io(bus_.get_event(), NULL,
-                         logManager_.getHostLogFd(),
+    rc = sd_event_add_io(bus_.get_event(), NULL, logManager_.getHostLogFd(),
                          EPOLLIN, &DbusWatcher::ioCallback, this);
-    if (DBUS_RC_TO_ERR(rc)) {
-        fprintf(stderr, "Unable to add IO handler: %i %s\n",
-                        rc, strerror(rc));
+    if (DBUS_RC_TO_ERR(rc))
+    {
+        fprintf(stderr, "Unable to add IO handler: %i %s\n", rc, strerror(rc));
         return rc;
     }
 
@@ -62,52 +60,51 @@ int DbusWatcher::initialize()
     return rc;
 }
 
-
 void DbusWatcher::registerEventHandler()
 {
     conds_["xyz.openbmc_project.State.Host"] = {
         .property = "RequestedHostTransition",
-        .values = {
-            "xyz.openbmc_project.State.Host.Transition.On"
-        }
-    };
+        .values = {"xyz.openbmc_project.State.Host.Transition.On"}};
     conds_["xyz.openbmc_project.State.OperatingSystem.Status"] = {
         .property = "OperatingSystemState",
-        .values = {
-            "xyz.openbmc_project.State.OperatingSystem.Status.OSStatus.BootComplete",
-            "xyz.openbmc_project.State.OperatingSystem.Status.OSStatus.Inactive"
-        }
-    };
-    for (auto& cond: conds_) {
-        cond.second.match = std::make_unique<sdbusplus::bus::match_t>(bus_,
-                            sdbusplus::bus::match::rules::propertiesChanged(
-                            DBUS_HOST_OBJECT_PATH, cond.first),
-                            [this](auto& msg){ this->hostStateHandler(msg); });
+        .values = {"xyz.openbmc_project.State.OperatingSystem.Status.OSStatus."
+                   "BootComplete",
+                   "xyz.openbmc_project.State.OperatingSystem.Status.OSStatus."
+                   "Inactive"}};
+    for (auto& cond : conds_)
+    {
+        cond.second.match = std::make_unique<sdbusplus::bus::match_t>(
+            bus_,
+            sdbusplus::bus::match::rules::propertiesChanged(
+                DBUS_HOST_OBJECT_PATH, cond.first),
+            [this](auto& msg) { this->hostStateHandler(msg); });
     }
 }
-
 
 int DbusWatcher::registerTimerHandler()
 {
     int rc;
     sd_event_source* ev = NULL;
 
-    rc = sd_event_add_time(bus_.get_event(), &ev, CLOCK_MONOTONIC,
-                           UINT64_MAX, 0, &DbusWatcher::timerCallback, this);
-    if (DBUS_RC_TO_ERR(rc)) {
-        fprintf(stderr, "Unable to add timer handler: %i %s\n", rc, strerror(rc));
+    rc = sd_event_add_time(bus_.get_event(), &ev, CLOCK_MONOTONIC, UINT64_MAX,
+                           0, &DbusWatcher::timerCallback, this);
+    if (DBUS_RC_TO_ERR(rc))
+    {
+        fprintf(stderr, "Unable to add timer handler: %i %s\n", rc,
+                strerror(rc));
         return rc;
     }
 
     rc = sd_event_source_set_enabled(ev, SD_EVENT_ON);
-    if (DBUS_RC_TO_ERR(rc)) {
-        fprintf(stderr, "Unable to enable timer handler: %i %s\n", rc, strerror(rc));
+    if (DBUS_RC_TO_ERR(rc))
+    {
+        fprintf(stderr, "Unable to enable timer handler: %i %s\n", rc,
+                strerror(rc));
         return rc;
     }
 
     return setupTimer(ev);
 }
-
 
 int DbusWatcher::setupTimer(sd_event_source* event)
 {
@@ -115,17 +112,17 @@ int DbusWatcher::setupTimer(sd_event_source* event)
     using namespace std::chrono;
     auto now = steady_clock::now().time_since_epoch();
     hours timeOut(loggerConfig.flushPeriod);
-    auto expireTime = duration_cast<microseconds>(now) +
-                      duration_cast<microseconds>(timeOut);
+    auto expireTime =
+        duration_cast<microseconds>(now) + duration_cast<microseconds>(timeOut);
 
-    //Set the time
+    // Set the time
     int rc = sd_event_source_set_time(event, expireTime.count());
     if (DBUS_RC_TO_ERR(rc))
-        fprintf(stderr, "Unable to set timer handler: %i %s\n", rc, strerror(rc));
+        fprintf(stderr, "Unable to set timer handler: %i %s\n", rc,
+                strerror(rc));
 
     return rc;
 }
-
 
 void DbusWatcher::hostStateHandler(sdbusplus::message::message& msg)
 {
@@ -136,11 +133,15 @@ void DbusWatcher::hostStateHandler(sdbusplus::message::message& msg)
 
     bool needFlush = false;
     const auto itc = conds_.find(interface);
-    if (itc != conds_.end()) {
+    if (itc != conds_.end())
+    {
         const auto itp = properties.find(itc->second.property);
-        if (itp != properties.end()) {
-            const auto& propVal = sdbusplus::message::variant_ns::get<std::string>(itp->second);
-            needFlush = itc->second.values.find(propVal) != itc->second.values.end();
+        if (itp != properties.end())
+        {
+            const auto& propVal =
+                sdbusplus::message::variant_ns::get<std::string>(itp->second);
+            needFlush =
+                itc->second.values.find(propVal) != itc->second.values.end();
         }
     }
 
@@ -148,16 +149,16 @@ void DbusWatcher::hostStateHandler(sdbusplus::message::message& msg)
         logManager_.flush();
 }
 
-
-int DbusWatcher::ioCallback(sd_event_source* /*event*/, int /*fd*/, uint32_t /*revents*/, void* data)
+int DbusWatcher::ioCallback(sd_event_source* /*event*/, int /*fd*/,
+                            uint32_t /*revents*/, void* data)
 {
     DbusWatcher* instance = static_cast<DbusWatcher*>(data);
     instance->logManager_.handleHostLog();
     return 0;
 }
 
-
-int DbusWatcher::timerCallback(sd_event_source* event, uint64_t /*usec*/, void* data)
+int DbusWatcher::timerCallback(sd_event_source* event, uint64_t /*usec*/,
+                               void* data)
 {
     DbusWatcher* instance = static_cast<DbusWatcher*>(data);
     instance->logManager_.flush();

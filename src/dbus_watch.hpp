@@ -22,20 +22,17 @@
 
 #include "log_manager.hpp"
 
-#include <set>
 #include <map>
-#include <string>
-
 #include <sdbusplus/bus/match.hpp>
-
-
+#include <set>
+#include <string>
 
 /** @class DbusServer
  *  @brief D-Bus service by host logger.
  */
 class DbusWatcher
 {
-public:
+  public:
     /** @brief Constructor.
      *
      *  @param[in] logManager - log manager
@@ -49,7 +46,7 @@ public:
      */
     int initialize();
 
-private:
+  private:
     /** @brief Register D-Bus event handler. */
     void registerEventHandler();
 
@@ -73,19 +70,21 @@ private:
      */
     void hostStateHandler(sdbusplus::message::message& msg);
 
-    /** @brief D-Bus IO callback used to handle incoming data on the opened file.
-     *         See sd_event_io_handler_t for details.
+    /** @brief D-Bus IO callback used to handle incoming data on the opened
+     * file. See sd_event_io_handler_t for details.
      */
-    static int ioCallback(sd_event_source* event, int fd, uint32_t revents, void* data);
+    static int ioCallback(sd_event_source* event, int fd, uint32_t revents,
+                          void* data);
 
     /** @brief D-Bus timer callback used to flush log store.
      *         See sd_event_add_time for details.
      */
     static int timerCallback(sd_event_source* event, uint64_t usec, void* data);
 
-private:
+  private:
     /** @struct FlushCondition
-     *  @brief Describes flush conditions for log manager based on host state event.
+     *  @brief Describes flush conditions for log manager based on host state
+     * event.
      */
     struct FlushCondition
     {
@@ -97,7 +96,7 @@ private:
         std::unique_ptr<sdbusplus::bus::match_t> match;
     };
 
-private:
+  private:
     /** @brief Log manager instance. */
     LogManager& logManager_;
 

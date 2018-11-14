@@ -18,20 +18,18 @@
  * limitations under the License.
  */
 
-#include "config.hpp"
 #include "log_storage.hpp"
 
-#include <sys/stat.h>
+#include "config.hpp"
+
 #include <fcntl.h>
-#include <unistd.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
-
-LogStorage::LogStorage()
-: last_complete_(true)
+LogStorage::LogStorage() : last_complete_(true)
 {
 }
-
 
 void LogStorage::parse(const char* data, size_t len)
 {
@@ -39,7 +37,8 @@ void LogStorage::parse(const char* data, size_t len)
     // Stream may not be ended with EOL, so we handle this situation by
     // last_complete_ flag.
     size_t pos = 0;
-    while (pos < len) {
+    while (pos < len)
+    {
         // Search for EOL ('\n')
         size_t eol = pos;
         while (eol < len && data[eol] != '\n')
@@ -61,17 +60,19 @@ void LogStorage::parse(const char* data, size_t len)
     }
 }
 
-
 void LogStorage::append(const char* msg, size_t len)
 {
-    if (!last_complete_) {
+    if (!last_complete_)
+    {
         // The last message is incomplete, add msg as part of it
-        if (!messages_.empty()) {
+        if (!messages_.empty())
+        {
             Message& last_msg = *messages_.rbegin();
             last_msg.text.append(msg, len);
         }
     }
-    else {
+    else
+    {
         Message new_msg;
         time(&new_msg.timeStamp);
         new_msg.text.assign(msg, len);
@@ -80,47 +81,46 @@ void LogStorage::append(const char* msg, size_t len)
     }
 }
 
-
 void LogStorage::clear()
 {
     messages_.clear();
     last_complete_ = true;
 }
 
-
 bool LogStorage::empty() const
 {
     return messages_.empty();
 }
 
-
 int LogStorage::write(const char* fileName) const
 {
     int rc = 0;
 
-    if (empty()) {
+    if (empty())
+    {
         printf("No messages to write\n");
         return 0;
     }
 
     const gzFile fd = gzopen(fileName, "w");
-    if (fd == Z_NULL) {
+    if (fd == Z_NULL)
+    {
         rc = errno;
-        fprintf(stderr, "Unable to open file %s: error [%i] %s\n",
-                fileName, rc, strerror(rc));
+        fprintf(stderr, "Unable to open file %s: error [%i] %s\n", fileName, rc,
+                strerror(rc));
         return rc;
     }
 
     // Write full datetime stamp as the first record
     const time_t& logStartTime = messages_.begin()->timeStamp;
-    tm localTime = { 0 };
+    tm localTime = {0};
     localtime_r(&logStartTime, &localTime);
     char msgText[64];
     snprintf(msgText, sizeof(msgText),
              ">>> Log collection started at %02i.%02i.%i %02i:%02i:%02i",
              localTime.tm_mday, localTime.tm_mon + 1, localTime.tm_year + 1900,
              localTime.tm_hour, localTime.tm_min, localTime.tm_sec);
-    const Message startMsg = { logStartTime, msgText };
+    const Message startMsg = {logStartTime, msgText};
     rc |= write(fd, startMsg);
 
     // Write messages
@@ -134,20 +134,18 @@ int LogStorage::write(const char* fileName) const
     return rc;
 }
 
-
 int LogStorage::write(gzFile fd, const Message& msg) const
 {
     // Convert timestamp to local time
-    tm localTime = { 0 };
+    tm localTime = {0};
     localtime_r(&msg.timeStamp, &localTime);
 
     // Write message to the file
-    const int rc = gzprintf(fd, "[ %02i:%02i:%02i ]: %s\n",
-                            localTime.tm_hour,
-                            localTime.tm_min,
-                            localTime.tm_sec,
-                            msg.text.c_str());
-    if (rc <= 0) {
+    const int rc =
+        gzprintf(fd, "[ %02i:%02i:%02i ]: %s\n", localTime.tm_hour,
+                 localTime.tm_min, localTime.tm_sec, msg.text.c_str());
+    if (rc <= 0)
+    {
         fprintf(stderr, "Unable to write file: error [%i]\n", -rc);
         return EIO;
     }
@@ -155,19 +153,22 @@ int LogStorage::write(gzFile fd, const Message& msg) const
     return 0;
 }
 
-
 void LogStorage::shrink()
 {
-    if (loggerConfig.storageSizeLimit) {
-        while (messages_.size() > static_cast<size_t>(loggerConfig.storageSizeLimit))
+    if (loggerConfig.storageSizeLimit)
+    {
+        while (messages_.size() >
+               static_cast<size_t>(loggerConfig.storageSizeLimit))
             messages_.pop_front();
     }
-    if (loggerConfig.storageTimeLimit) {
+    if (loggerConfig.storageTimeLimit)
+    {
         // Get time for N hours ago
         time_t oldestTimeStamp;
         time(&oldestTimeStamp);
         oldestTimeStamp -= loggerConfig.storageTimeLimit * 60 * 60;
-        while (!messages_.empty() && messages_.begin()->timeStamp < oldestTimeStamp)
+        while (!messages_.empty() &&
+               messages_.begin()->timeStamp < oldestTimeStamp)
             messages_.pop_front();
     }
 }

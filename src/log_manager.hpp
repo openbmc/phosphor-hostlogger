@@ -22,14 +22,13 @@
 
 #include "log_storage.hpp"
 
-
 /** @class LogManager
  *  @brief Log manager.
  *         All functions within this class are not thread-safe.
  */
 class LogManager
 {
-public:
+  public:
     /** @brief Constructor. */
     LogManager();
 
@@ -43,11 +42,12 @@ public:
     int openHostLog();
 
     /** @brief Close the host's log stream.
-    */
+     */
     void closeHostLog();
 
     /** @brief Get file descriptor by host's log stream.
-     *         Descriptor can be used to register it in an external polling manager.
+     *         Descriptor can be used to register it in an external polling
+     * manager.
      *
      *  @return file descriptor (actually it is an opened socket)
      */
@@ -66,7 +66,7 @@ public:
      */
     int flush();
 
-private:
+  private:
     /** @brief Read incoming data from host's log stream.
      *
      *  @param[out] buffer - buffer to write incoming data
@@ -98,7 +98,7 @@ private:
      */
     int rotateLogFiles() const;
 
-private:
+  private:
     /** @brief Log storage. */
     LogStorage storage_;
     /** @brief File descriptor of the input log stream. */

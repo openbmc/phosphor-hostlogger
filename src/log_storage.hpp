@@ -20,11 +20,11 @@
 
 #pragma once
 
+#include <zlib.h>
+
 #include <ctime>
 #include <list>
 #include <string>
-#include <zlib.h>
-
 
 /** @class LogStorage
  *  @brief Log storage implementation.
@@ -32,7 +32,7 @@
  */
 class LogStorage
 {
-public:
+  public:
     /** @brief Constructor. */
     LogStorage();
 
@@ -60,7 +60,7 @@ public:
      */
     int write(const char* fileName) const;
 
-private:
+  private:
     /** @struct Message
      *  @brief Represent log message (single line from host log).
      */
@@ -91,7 +91,7 @@ private:
     /** @brief Shrink storage by removing oldest messages. */
     void shrink();
 
-private:
+  private:
     /** @brief List of messages. */
     std::list<Message> messages_;
     /** @brief Flag to indicate that the last message is incomplete. */
