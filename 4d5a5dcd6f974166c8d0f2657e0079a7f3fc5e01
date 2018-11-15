@@ -1,0 +1,9 @@
+Ok-To-Test+1: Jenkins <openbmc-ci-admin@ozlabs.org>
+Verified+1: Jenkins <openbmc-ci-admin@ozlabs.org>
+Code-Review+1: Alexander Filippov <a.filippov@yadro.com>
+Code-Review+2: Artem Senichev <artemsen@gmail.com>
+Submitted-by: Artem Senichev <artemsen@gmail.com>
+Submitted-at: Thu, 15 Nov 2018 07:23:55 +0000
+Reviewed-on: https://gerrit.openbmc-project.xyz/15803
+Project: openbmc/phosphor-hostlogger
+Branch: refs/heads/master
