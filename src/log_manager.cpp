@@ -98,7 +98,7 @@ int LogManager::openHostLog()
              ++attempt)
         {
             rc = connect(fd_, reinterpret_cast<const sockaddr*>(&sa),
-                         sizeof(sa));
+                         sizeof(sa) - sizeof(sa.sun_path) + min_path - 1);
             sleep(HOSTLOG_SOCKET_PAUSE);
         }
         if (rc < 0)
