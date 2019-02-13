@@ -20,12 +20,9 @@ AX_APPEND_COMPILE_FLAGS([-fpic -Wall], [CXXFLAGS])
 # Checks for external dependencies
 AC_CHECK_LIB([z], [gzopen], [],
              [AC_MSG_ERROR([zlib required but not found])])
-PKG_CHECK_MODULES([SYSTEMD], [libsystemd >= 221], [],
-                  [AC_MSG_ERROR([systemd required but not found])])
-PKG_CHECK_MODULES([PHOSPHOR_DBUS_INTERFACES], [phosphor-dbus-interfaces], [],
-                  [AC_MSG_ERROR([phosphor-dbus-interfaces required but not found])])
-PKG_CHECK_MODULES([SDBUSPLUS], [sdbusplus], [],
-                  [AC_MSG_ERROR([sdbusplus required but not found])])
+PKG_CHECK_MODULES([SYSTEMD], [libsystemd >= 221])
+PKG_CHECK_MODULES([PHOSPHOR_DBUS_INTERFACES], [phosphor-dbus-interfaces])
+PKG_CHECK_MODULES([SDBUSPLUS], [sdbusplus])
 AC_PATH_PROG([SDBUSPLUSPLUS], [sdbus++])
 AS_IF([test "x$SDBUSPLUSPLUS" = "x"],
       [AC_MSG_ERROR([sdbus++ required but not found])])
