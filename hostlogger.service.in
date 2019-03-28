@@ -4,7 +4,7 @@ Wants=obmc-console@@HOST_TTY@.service
 After=obmc-console@@HOST_TTY@.service
 
 [Service]
-ExecStart=@sbindir@/hostlogger
+ExecStart=@bindir@/hostlogger
 Restart=always
 Type=dbus
 BusName=xyz.openbmc_project.HostLogger

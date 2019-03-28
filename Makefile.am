@@ -3,7 +3,7 @@ DBUS_IFACE = xyz.openbmc_project.HostLogger
 GENERATED_HPP = xyz/openbmc_project/HostLogger/server.hpp
 GENERATED_CPP = xyz/openbmc_project/HostLogger/server.cpp
 
-sbin_PROGRAMS = hostlogger
+bin_PROGRAMS = hostlogger
 
 nobase_nodist_include_HEADERS = \
 	$(GENERATED_HPP)
