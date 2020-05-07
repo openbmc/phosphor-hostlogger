@@ -127,26 +127,53 @@ int LogStorage::write(const char* fileName) const
     for (auto it = messages_.begin(); rc == 0 && it != messages_.end(); ++it)
         rc |= write(fd, *it);
 
-    rc = gzclose_w(fd);
-    if (rc != Z_OK)
-        fprintf(stderr, "Unable to close file %s: error [%i]\n", fileName, rc);
+    const int rcClose = gzclose_w(fd);
+    if (rcClose != Z_OK)
+    {
+        fprintf(stderr, "Unable to close file %s: error [%i]\n", fileName,
+                rcClose);
+        if (rc == 0)
+            rc = rcClose;
+    }
 
     return rc;
 }
 
 int LogStorage::write(gzFile fd, const Message& msg) const
 {
+    int rc = 0;
+
     // Convert timestamp to local time
     tm localTime = {0};
     localtime_r(&msg.timeStamp, &localTime);
 
     // Write message to the file
-    const int rc =
-        gzprintf(fd, "[ %02i:%02i:%02i ]: %s\n", localTime.tm_hour,
-                 localTime.tm_min, localTime.tm_sec, msg.text.c_str());
+    do
+    {
+        rc = gzprintf(fd, "[ %02i:%02i:%02i ]: ", localTime.tm_hour,
+                      localTime.tm_min, localTime.tm_sec);
+        if (rc <= 0)
+            break;
+
+        const size_t len = msg.text.length();
+        if (len)
+        {
+            rc = gzwrite(fd, msg.text.data(), static_cast<unsigned int>(len));
+            if (rc <= 0)
+                break;
+        }
+
+        rc = gzputc(fd, '\n');
+    } while (false);
+
     if (rc <= 0)
     {
-        fprintf(stderr, "Unable to write file: error [%i]\n", -rc);
+        const char* errDesc = gzerror(fd, &rc);
+        fprintf(stderr, "Unable to write file: ");
+        if (errDesc)
+            fprintf(stderr, "[%i] %s\n", rc, errDesc);
+        else
+            fprintf(stderr, "error %i\n", rc);
         return EIO;
     }
 
