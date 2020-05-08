@@ -146,21 +146,50 @@ int LogStorage::save(const char* fileName) const
 
 int LogStorage::msgwrite(gzFile fd, const Message& msg) const
 {
+    int rc = 0;
+
     // Convert timestamp to local time
     tm localTime = {0};
     localtime_r(&msg.timeStamp, &localTime);
 
     // Write message to the file
-    const int rc =
-        gzprintf(fd, "[ %02i:%02i:%02i ]: %s\n", localTime.tm_hour,
-                 localTime.tm_min, localTime.tm_sec, msg.text.c_str());
+    do
+    {
+        rc = gzprintf(fd, "[ %02i:%02i:%02i ]: ", localTime.tm_hour,
+                      localTime.tm_min, localTime.tm_sec);
+        if (rc <= 0)
+            break;
+
+        const size_t len = msg.text.length();
+        if (len)
+        {
+            rc = gzwrite(fd, msg.text.data(), static_cast<unsigned int>(len));
+            if (rc <= 0)
+                break;
+        }
+
+        rc = gzputc(fd, '\n');
+    } while (false);
+
+    // Check for errors
     if (rc <= 0)
     {
-        fprintf(stderr, "Unable to write file: error [%i]\n", -rc);
-        return EIO;
+        const char* errDesc = "Internal zlib error";
+        if (rc == Z_ERRNO && errno)
+        {
+            rc = errno;
+            errDesc = strerror(rc);
+        }
+        else
+        {
+            const char* gzErr = gzerror(fd, &rc);
+            if (gzErr)
+                errDesc = gzErr;
+        }
+        fprintf(stderr, "Unable to write file: error [%i] %s\n", rc, errDesc);
     }
 
-    return 0;
+    return rc > 0 ? 0 : EIO;
 }
 
 void LogStorage::shrink()
