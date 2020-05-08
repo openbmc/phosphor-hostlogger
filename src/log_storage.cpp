@@ -105,7 +105,7 @@ int LogStorage::save(const char* fileName) const
     const gzFile fd = gzopen(fileName, "w");
     if (fd == Z_NULL)
     {
-        rc = errno;
+        rc = errno ? errno : EIO;
         fprintf(stderr, "Unable to open file %s: error [%i] %s\n", fileName, rc,
                 strerror(rc));
         return rc;
@@ -125,9 +125,21 @@ int LogStorage::save(const char* fileName) const
     for (auto it = messages_.begin(); rc == 0 && it != messages_.end(); ++it)
         rc = msgwrite(fd, *it);
 
-    rc = gzclose_w(fd);
-    if (rc != Z_OK)
-        fprintf(stderr, "Unable to close file %s: error [%i]\n", fileName, rc);
+    // Close file
+    int rcClose = gzclose_w(fd);
+    if (rcClose != Z_OK)
+    {
+        const char* errDesc = "Internal zlib error";
+        if (rcClose == Z_ERRNO && errno)
+        {
+            rcClose = errno;
+            errDesc = strerror(rcClose);
+        }
+        fprintf(stderr, "Unable to close file %s: error [%i] %s\n", fileName,
+                rcClose, errDesc);
+        if (rc == 0)
+            rc = rcClose;
+    }
 
     return rc;
 }
