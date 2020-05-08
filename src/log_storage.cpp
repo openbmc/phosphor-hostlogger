@@ -112,16 +112,14 @@ int LogStorage::write(const char* fileName) const
     }
 
     // Write full datetime stamp as the first record
-    const time_t& logStartTime = messages_.begin()->timeStamp;
-    tm localTime = {0};
-    localtime_r(&logStartTime, &localTime);
-    char msgText[64];
-    snprintf(msgText, sizeof(msgText),
-             ">>> Log collection started at %02i.%02i.%i %02i:%02i:%02i",
-             localTime.tm_mday, localTime.tm_mon + 1, localTime.tm_year + 1900,
-             localTime.tm_hour, localTime.tm_min, localTime.tm_sec);
-    const Message startMsg = {logStartTime, msgText};
-    rc |= write(fd, startMsg);
+    Message titleMsg = {messages_.begin()->timeStamp,
+                        ">>> Log collection started at "};
+    tm tmLocal = {0};
+    localtime_r(&titleMsg.timeStamp, &tmLocal);
+    char tmText[24] = {0};
+    strftime(tmText, sizeof(tmText), "%F %T", &tmLocal);
+    titleMsg.text += tmText;
+    rc = write(fd, titleMsg);
 
     // Write messages
     for (auto it = messages_.begin(); rc == 0 && it != messages_.end(); ++it)
