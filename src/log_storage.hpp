@@ -58,7 +58,7 @@ class LogStorage
      *
      *  @return error code, 0 if operation completed successfully
      */
-    int write(const char* fileName) const;
+    int save(const char* fileName) const;
 
   private:
     /** @struct Message
@@ -86,7 +86,7 @@ class LogStorage
      *
      *  @return error code, 0 if operation completed successfully
      */
-    int write(gzFile fd, const Message& msg) const;
+    int msgwrite(gzFile fd, const Message& msg) const;
 
     /** @brief Shrink storage by removing oldest messages. */
     void shrink();

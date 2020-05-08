@@ -159,7 +159,7 @@ int LogManager::flush()
     if (logFile.empty())
         return EIO;
 
-    rc = storage_.write(logFile.c_str());
+    rc = storage_.save(logFile.c_str());
     if (rc != 0)
         return rc;
 

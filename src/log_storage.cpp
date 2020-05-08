@@ -92,7 +92,7 @@ bool LogStorage::empty() const
     return messages_.empty();
 }
 
-int LogStorage::write(const char* fileName) const
+int LogStorage::save(const char* fileName) const
 {
     int rc = 0;
 
@@ -119,11 +119,11 @@ int LogStorage::write(const char* fileName) const
     char tmText[24] = {0};
     strftime(tmText, sizeof(tmText), "%F %T", &tmLocal);
     titleMsg.text += tmText;
-    rc = write(fd, titleMsg);
+    rc = msgwrite(fd, titleMsg);
 
     // Write messages
     for (auto it = messages_.begin(); rc == 0 && it != messages_.end(); ++it)
-        rc |= write(fd, *it);
+        rc = msgwrite(fd, *it);
 
     rc = gzclose_w(fd);
     if (rc != Z_OK)
@@ -132,7 +132,7 @@ int LogStorage::write(const char* fileName) const
     return rc;
 }
 
-int LogStorage::write(gzFile fd, const Message& msg) const
+int LogStorage::msgwrite(gzFile fd, const Message& msg) const
 {
     // Convert timestamp to local time
     tm localTime = {0};
