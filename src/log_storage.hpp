@@ -33,9 +33,6 @@
 class LogStorage
 {
   public:
-    /** @brief Constructor. */
-    LogStorage();
-
     /** @brief Parse input log stream and append messages to the storage.
      *
      *  @param[in] data - pointer to the message buffer
@@ -58,7 +55,7 @@ class LogStorage
      *
      *  @return error code, 0 if operation completed successfully
      */
-    int write(const char* fileName) const;
+    int save(const char* fileName) const;
 
   private:
     /** @struct Message
@@ -79,15 +76,6 @@ class LogStorage
      */
     void append(const char* msg, size_t len);
 
-    /** @brief Write message to the file.
-     *
-     *  @param[in] fd - descriptor of the file to write
-     *  @param[in] msg - message to write
-     *
-     *  @return error code, 0 if operation completed successfully
-     */
-    int write(gzFile fd, const Message& msg) const;
-
     /** @brief Shrink storage by removing oldest messages. */
     void shrink();
 
@@ -95,5 +83,5 @@ class LogStorage
     /** @brief List of messages. */
     std::list<Message> messages_;
     /** @brief Flag to indicate that the last message is incomplete. */
-    bool last_complete_;
+    bool last_complete_ = true;
 };
