@@ -21,15 +21,14 @@
 #include "log_storage.hpp"
 
 #include "config.hpp"
+#include "log_file.hpp"
 
 #include <fcntl.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
-LogStorage::LogStorage() : last_complete_(true)
-{
-}
+#include <exception>
 
 void LogStorage::parse(const char* data, size_t len)
 {
@@ -92,7 +91,7 @@ bool LogStorage::empty() const
     return messages_.empty();
 }
 
-int LogStorage::write(const char* fileName) const
+int LogStorage::save(const char* fileName) const
 {
     int rc = 0;
 
@@ -102,55 +101,34 @@ int LogStorage::write(const char* fileName) const
         return 0;
     }
 
-    const gzFile fd = gzopen(fileName, "w");
-    if (fd == Z_NULL)
+    try
     {
-        rc = errno;
-        fprintf(stderr, "Unable to open file %s: error [%i] %s\n", fileName, rc,
-                strerror(rc));
-        return rc;
+        LogFile log;
+        log.open(fileName);
+
+        // Write full datetime stamp as the first record
+        const time_t& tmStart = messages_.begin()->timeStamp;
+        tm tmLocal;
+        localtime_r(&tmStart, &tmLocal);
+        char tmText[20]; // size of "%F %T" asciiz (YYYY-MM-DD HH:MM:SS)
+        strftime(tmText, sizeof(tmText), "%F %T", &tmLocal);
+        std::string titleMsg = ">>> Log collection started at ";
+        titleMsg += tmText;
+        log.write(tmStart, titleMsg);
+
+        // Write messages
+        for (auto it = messages_.begin(); it != messages_.end(); ++it)
+            log.write(it->timeStamp, it->text);
+
+        log.close();
     }
-
-    // Write full datetime stamp as the first record
-    const time_t& logStartTime = messages_.begin()->timeStamp;
-    tm localTime = {0};
-    localtime_r(&logStartTime, &localTime);
-    char msgText[64];
-    snprintf(msgText, sizeof(msgText),
-             ">>> Log collection started at %02i.%02i.%i %02i:%02i:%02i",
-             localTime.tm_mday, localTime.tm_mon + 1, localTime.tm_year + 1900,
-             localTime.tm_hour, localTime.tm_min, localTime.tm_sec);
-    const Message startMsg = {logStartTime, msgText};
-    rc |= write(fd, startMsg);
-
-    // Write messages
-    for (auto it = messages_.begin(); rc == 0 && it != messages_.end(); ++it)
-        rc |= write(fd, *it);
-
-    rc = gzclose_w(fd);
-    if (rc != Z_OK)
-        fprintf(stderr, "Unable to close file %s: error [%i]\n", fileName, rc);
+    catch (std::exception& e)
+    {
+        rc = EIO;
+        fprintf(stderr, "%s\n", e.what());
+    }
 
     return rc;
-}
-
-int LogStorage::write(gzFile fd, const Message& msg) const
-{
-    // Convert timestamp to local time
-    tm localTime = {0};
-    localtime_r(&msg.timeStamp, &localTime);
-
-    // Write message to the file
-    const int rc =
-        gzprintf(fd, "[ %02i:%02i:%02i ]: %s\n", localTime.tm_hour,
-                 localTime.tm_min, localTime.tm_sec, msg.text.c_str());
-    if (rc <= 0)
-    {
-        fprintf(stderr, "Unable to write file: error [%i]\n", -rc);
-        return EIO;
-    }
-
-    return 0;
 }
 
 void LogStorage::shrink()

@@ -15,10 +15,14 @@ hostlogger_SOURCES = \
 	src/dbus_server.cpp \
 	src/dbus_watch.hpp \
 	src/dbus_watch.cpp \
+	src/log_file.hpp \
+	src/log_file.cpp \
 	src/log_manager.hpp \
 	src/log_manager.cpp \
 	src/log_storage.hpp \
-	src/log_storage.cpp
+	src/log_storage.cpp \
+	src/zlib_exception.hpp \
+	src/zlib_exception.cpp
 
 hostlogger_CXXFLAGS = $(SDBUSPLUS_CFLAGS) $(PHOSPHOR_DBUS_INTERFACES_CFLAGS)
 hostlogger_LDADD = $(SDBUSPLUS_LIBS) $(PHOSPHOR_DBUS_INTERFACES_LIBS)
