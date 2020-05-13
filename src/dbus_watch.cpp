@@ -126,7 +126,7 @@ int DbusWatcher::setupTimer(sd_event_source* event)
 
 void DbusWatcher::hostStateHandler(sdbusplus::message::message& msg)
 {
-    std::map<std::string, sdbusplus::message::variant<std::string>> properties;
+    std::map<std::string, std::variant<std::string>> properties;
     std::string interface;
 
     msg.read(interface, properties);
@@ -139,7 +139,7 @@ void DbusWatcher::hostStateHandler(sdbusplus::message::message& msg)
         if (itp != properties.end())
         {
             const auto& propVal =
-                sdbusplus::message::variant_ns::get<std::string>(itp->second);
+                std::get<std::string>(itp->second);
             needFlush =
                 itc->second.values.find(propVal) != itc->second.values.end();
         }
