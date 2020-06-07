@@ -1,22 +1,5 @@
-/**
- * @brief zLib exception.
- *
- * This file is part of HostLogger project.
- *
- * Copyright (c) 2020 YADRO
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (C) 2020 YADRO
 
 #include "zlib_exception.hpp"
 
@@ -52,26 +35,26 @@ ZlibException::ZlibException(Operation op, int code, gzFile fd,
         details += ')';
     }
 
-    what_ = "Unable to ";
+    errDesc = "Unable to ";
     switch (op)
     {
-        case Create:
-            what_ += "create";
+        case create:
+            errDesc += "create";
             break;
-        case Close:
-            what_ += "close";
+        case close:
+            errDesc += "close";
             break;
-        case Write:
-            what_ += "write";
+        case write:
+            errDesc += "write";
             break;
     }
-    what_ += " file ";
-    what_ += fileName;
-    what_ += ": ";
-    what_ += details;
+    errDesc += " file ";
+    errDesc += fileName;
+    errDesc += ": ";
+    errDesc += details;
 }
 
 const char* ZlibException::what() const noexcept
 {
-    return what_.c_str();
+    return errDesc.c_str();
 }
