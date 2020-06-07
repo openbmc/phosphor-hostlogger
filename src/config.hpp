@@ -1,41 +1,35 @@
-/**
- * @brief Logger configuration.
- *
- * This file is part of HostLogger project.
- *
- * Copyright (c) 2018 YADRO
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (C) 2020 YADRO
 
 #pragma once
 
-/** @struct Config
- *  @brief Represent the configuration of the logger.
+#include <cstddef>
+
+/**
+ * @struct Config
+ * @brief Configuration of the service, initialized with default values.
  */
 struct Config
 {
-    /** @brief Path to write log files. */
-    const char* path;
-    /** @brief Storage limit (message count). */
-    int storageSizeLimit;
-    /** @brief Storage limit (max time). */
-    int storageTimeLimit;
-    /** @brief Flush policy: save logs every flushPeriod hours. */
-    int flushPeriod;
-    /** @brief Rotation limit (max files to store). */
-    int rotationLimit;
-};
+    /**
+     * @brief Constructor: load configuration from environment variables.
+     *
+     * @throw std::invalid_argument invalid format in one of the variables
+     */
+    Config();
 
-/** @brief Global logger configuration instance. */
-extern Config loggerConfig;
+    /** @brief Socket ID used for connection with host console. */
+    const char* socketId = "";
+    /** @brief Max number of messages stored inside intermediate buffer. */
+    size_t bufMaxSize = 3000;
+    /** @brief Max age of messages (in minutes) inside intermediate buffer. */
+    size_t bufMaxTime = 0;
+    /** @brief Flag indicated we need to flush console buffer as it fills. */
+    bool bufFlushFull = false;
+    /** @brief Path to D-Bus object that provides host's state information. */
+    const char* hostState = "/xyz/openbmc_project/state/host0";
+    /** @brief Absolute path to the output directory for log files. */
+    const char* outDir = "/var/lib/obmc/hostlogs";
+    /** @brief Max number of log files in the output directory. */
+    size_t maxFiles = 10;
+};
