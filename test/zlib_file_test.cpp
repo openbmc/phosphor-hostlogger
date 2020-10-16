@@ -25,9 +25,13 @@ TEST(ZlibFileTest, Write)
     file.close();
 
     char expect[64];
-    const int len = snprintf(expect, sizeof(expect), "[ %02i:%02i:%02i ] %s\n",
-                             localTime.tm_hour, localTime.tm_min,
-                             localTime.tm_sec, msg.c_str());
+    const int len =
+        snprintf(expect, sizeof(expect),
+                 "[ %i-%02i-%02iT%02i:%02i:%02i%+03d:%02d ] %s\n",
+                 timeStamp.tm_year + 1900, timeStamp.tm_mon + 1,
+                 timeStamp.tm_mday, timeStamp.tm_hour, timeStamp.tm_min,
+                 timeStamp.tm_sec, timeStamp.tm_gmtoff / (60 * 60),
+                 abs(timeStamp.tm_gmtoff % (60 * 60)) / 60, msg.c_str());
 
     gzFile fd = gzopen(path.c_str(), "r");
     ASSERT_TRUE(fd);
