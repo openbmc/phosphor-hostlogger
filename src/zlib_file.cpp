@@ -41,9 +41,17 @@ void ZlibFile::write(const tm& timeStamp, const std::string& message) const
 {
     int rc;
 
-    // Write time stamp
-    rc = gzprintf(fd, "[ %02i:%02i:%02i ] ", timeStamp.tm_hour,
-                  timeStamp.tm_min, timeStamp.tm_sec);
+    // Write time stamp.
+    // "tm_gmtoff" is the number of seconds east of UTC, so we need to calculate
+    // timezone offset. For example, for U.S. Eastern Standard Time, the value
+    // is -18000 = -5*60*60."
+
+    rc = gzprintf(fd, "[ %i-%02i-%02iT%02i:%02i:%02i%+03d:%02d ]",
+                  timeStamp.tm_year + 1900, timeStamp.tm_mon + 1,
+                  timeStamp.tm_mday, timeStamp.tm_hour, timeStamp.tm_min,
+                  timeStamp.tm_sec, timeStamp.tm_gmtoff / (60 * 60),
+                  abs(timeStamp.tm_gmtoff % (60 * 60)) / 60);
+
     if (rc <= 0)
     {
         throw ZlibException(ZlibException::write, rc, fd, fileName);
