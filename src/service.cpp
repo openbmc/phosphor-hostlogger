@@ -18,7 +18,9 @@ static const DbusLoop::WatchProperties watchProperties{
   {"xyz.openbmc_project.State.OperatingSystem.Status", {{
     "OperatingSystemState", {
       "xyz.openbmc_project.State.OperatingSystem.Status.OSStatus.BootComplete",
-      "xyz.openbmc_project.State.OperatingSystem.Status.OSStatus.Inactive"}}}}
+      "xyz.openbmc_project.State.OperatingSystem.Status.OSStatus.Inactive",
+      "Inactive",
+      "Standby"}}}}
 };
 // clang-format on
 
