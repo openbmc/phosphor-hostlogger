@@ -93,6 +93,39 @@ If variable's value has an invalid format, the service fails with an error.
 - `MAX_FILES`: Log files rotation, max number of files in the output directory,
   oldest files are removed. The default value is `10` (0=unlimited).
 
+### Example
+
+#### Remove file limits
+
+Relevant for OpenPOWER based servers, using `ttyVUART0` for console.
+
+File `phosphor-hostlogger_%.bbappend`:
+```
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+SRC_URI_append = " file://ttyVUART0.conf"
+```
+
+File `phosphor-hostlogger/ttyVUART0.conf`:
+```
+MAX_FILES=0
+```
+
+#### Custom object for host state monitoring
+
+Relevant for x86 based servers: using `ttyS2` for console and
+`/xyz/openbmc_project/state/os` for host state monitoring.
+
+File `phosphor-hostlogger_%.bbappend`:
+```
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+SRC_URI_append = " file://ttyS2.conf"
+```
+
+File `phosphor-hostlogger/ttyS2.conf`:
+```
+HOST_STATE=/xyz/openbmc_project/state/os
+```
+
 ## Multi-host support
 
 The single instance of the service can handle only one host console at a time.

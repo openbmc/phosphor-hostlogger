@@ -10,7 +10,14 @@
 using namespace phosphor::logging;
 
 // clang-format off
-/** @brief Host state properties. */
+/** @brief Host state monitor properties.
+ *  Used for automatic flushing the log buffer to the persistent file.
+ *  Contains a list of properties and a set of their values that trigger the
+ *  flush operation.
+ *  For example, the current log buffer will be saved to a file when the
+ *  "OperatingSystemState" property obtains one of the
+ *  listed values ("xyz.openbmc_project...BootComplete", "Inactive", etc).
+ */
 static const DbusLoop::WatchProperties watchProperties{
   {"xyz.openbmc_project.State.Host", {{
     "RequestedHostTransition", {
@@ -18,7 +25,9 @@ static const DbusLoop::WatchProperties watchProperties{
   {"xyz.openbmc_project.State.OperatingSystem.Status", {{
     "OperatingSystemState", {
       "xyz.openbmc_project.State.OperatingSystem.Status.OSStatus.BootComplete",
-      "xyz.openbmc_project.State.OperatingSystem.Status.OSStatus.Inactive"}}}}
+      "xyz.openbmc_project.State.OperatingSystem.Status.OSStatus.Inactive",
+      "Inactive",
+      "Standby"}}}}
 };
 // clang-format on
 
