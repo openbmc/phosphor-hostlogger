@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a6b3e75f_87fb891c",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000131
+      },
+      "writtenOn": "2021-04-07T16:08:39Z",
+      "side": 1,
+      "message": "POWER-based systems work with the default configuration, it is not necessary setup anything else. Anyway, I added example for OpenPOWER.",
+      "parentUuid": "c62d06c4_25e0da48",
+      "revId": "cf79fca638dd0f8a23f7ffc7135114f741863322",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dfb295f6_fde13078",
         "filename": "src/service.cpp",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2021-04-07T15:19:24Z",
       "side": 1,
       "message": "I guess, it would be nice to explain here that only the listed values\nfor these properties trigger flushing of the logs, if I understood it right.\nI also assume that it only triggers when any value changes to any of these, and\nnot that it flushes on each check while any of these values is in effect. Right?",
+      "revId": "cf79fca638dd0f8a23f7ffc7135114f741863322",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "360311a1_00076b3a",
+        "filename": "src/service.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000131
+      },
+      "writtenOn": "2021-04-07T16:08:39Z",
+      "side": 1,
+      "message": "Done, added detailed description.",
+      "parentUuid": "dfb295f6_fde13078",
       "revId": "cf79fca638dd0f8a23f7ffc7135114f741863322",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
