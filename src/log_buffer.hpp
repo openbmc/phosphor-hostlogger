@@ -60,6 +60,8 @@ class LogBuffer
     container_t::const_iterator begin() const;
     /** @brief Get container's iterator. */
     container_t::const_iterator end() const;
+    /** @brief Get messages from buffer and send as journal log */
+    container_t messageToJournal;
 
   private:
     /** @brief Remove the oldest messages from container. */
