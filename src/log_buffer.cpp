@@ -56,6 +56,10 @@ void LogBuffer::append(const char* data, size_t sz)
         if (eolFound && pos < sz && isEol(data[pos]) && data[eol] != data[pos])
         {
             ++pos;
+
+            // If the conditional is ture means this is a complete message.
+            // So save message list and prepare to send to journal
+            messageToJournal.push_back(messages.back());
         }
     }
 

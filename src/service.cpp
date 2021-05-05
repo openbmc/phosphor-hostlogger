@@ -121,6 +121,16 @@ void Service::readConsole()
         while (const size_t rsz = hostConsole.read(buf, bufSize))
         {
             logBuffer.append(buf, rsz);
+            for (const auto sent : logBuffer.messageToJournal)
+            {
+                // Send host console log to journal.
+                log<level::INFO>(
+                    "Get a message from host console",
+                    entry("REDFISH_MESSAGE_ID=%s",
+                          "OpenBMC.0.1.SerialLogAdded"),
+                    entry("REDFISH_MESSAGE_ARGS=%s", sent.text.data()));
+            }
+            logBuffer.messageToJournal.clear();
         }
     }
     catch (const std::system_error& ex)
