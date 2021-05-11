@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d266b3fa_49a3fd78",
+        "filename": "src/log_buffer.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000682
+      },
+      "writtenOn": "2021-05-11T16:52:58Z",
+      "side": 1,
+      "message": "I think we can just send out the journal log here. When a new message is appended to the list, it means the last message has been complete.\n\nThe following is my change for your reference. I was having trouble sending/receiving non printable contents so I did a regex to sanitize the content. No printable contents doesn\u0027t help  much, I wonder if we could do similar things.\n\n```\n// Added at line 46\n+            // The last message is complete\n+            std::cerr \u003c\u003c \"The last message is complete: \" \u003c\u003c messages.back().te\nxt \u003c\u003c std::endl;\n+            std::string message_str \u003d messages.back().text.c_str();\n+            boost::regex expr(\"(\\\\n)|([^\\x20-\\x7E])\");\n+            std::string fmt(\"(?1\\n)\"); // Omitted the (?2) as a no-op\n+            std::string s2 \u003d boost::regex_replace(message_str, expr, fmt, boost\n::match_default | boost::format_all);\n+            if (message_str.size() \u003e 0) {\n+              phosphor::logging::log\u003cphosphor::logging::level::INFO\u003e(\n+                  message_str.c_str(),\n+                  phosphor::logging::entry(\"REDFISH_MESSAGE_ID\u003d%s\",\n+                                           \"OpenBMC.0.1.SerialLogAdded\"),\n+                  phosphor::logging::entry(\"REDFISH_MESSAGE_ARGS\u003d%s\",\n+                                           message_str.c_str()));\n+            }\n\n```",
+      "revId": "0574130c8bffd13aaed25e790bb7e651a118f35c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "565d9bfa_f535c3b8",
+        "filename": "src/log_buffer.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000682
+      },
+      "writtenOn": "2021-05-11T16:52:58Z",
+      "side": 1,
+      "message": "I don\u0027t think we need another list. Can we use the existing list?",
+      "revId": "0574130c8bffd13aaed25e790bb7e651a118f35c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
