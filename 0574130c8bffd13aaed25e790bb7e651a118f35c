@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "842ffff3_6ed33c24",
+        "filename": "src/log_buffer.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000131
+      },
+      "writtenOn": "2021-05-12T06:26:07Z",
+      "side": 1,
+      "message": "First of all, this breaks the application architecture. This class is a log buffer, it should collect and store messages from the stream, nothing else. But now it has logic with sending messages to the third module, this is not a task for this entity.\nThe second thing is the boost dependency, we already have regex support in c++. Why should we use the boost instead?",
+      "parentUuid": "d266b3fa_49a3fd78",
+      "revId": "0574130c8bffd13aaed25e790bb7e651a118f35c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "565d9bfa_f535c3b8",
         "filename": "src/log_buffer.hpp",
         "patchSetId": 2
@@ -30,6 +48,41 @@
       "writtenOn": "2021-05-11T16:52:58Z",
       "side": 1,
       "message": "I don\u0027t think we need another list. Can we use the existing list?",
+      "revId": "0574130c8bffd13aaed25e790bb7e651a118f35c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7dbd02a_bb02521c",
+        "filename": "src/log_buffer.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000131
+      },
+      "writtenOn": "2021-05-12T06:26:07Z",
+      "side": 1,
+      "message": "I agree, it looks really strange: log buffer with two identical containers inside.",
+      "parentUuid": "565d9bfa_f535c3b8",
+      "revId": "0574130c8bffd13aaed25e790bb7e651a118f35c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d1eed7f_ed70496b",
+        "filename": "src/service.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000131
+      },
+      "writtenOn": "2021-05-12T06:26:07Z",
+      "side": 1,
+      "message": "It agree that it is easier to add several lines here for forwarding messages, but this function is intended to *read* console output (it is called \"readConsole\"). If you need to do anything else it would be better to create another function.",
       "revId": "0574130c8bffd13aaed25e790bb7e651a118f35c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
