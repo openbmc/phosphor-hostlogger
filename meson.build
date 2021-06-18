@@ -26,6 +26,7 @@ systemd_system_unit_dir = systemd.get_pkgconfig_variable(
   'systemdsystemunitdir',
   define_variable: ['prefix', get_option('prefix')],
 )
+
 configure_file(
   copy: true,
   input: 'hostlogger@.service',
@@ -34,24 +35,42 @@ configure_file(
   output: 'hostlogger@.service'
 )
 
-executable(
-  'hostlogger',
-  [
-    version,
-    'src/config.cpp',
-    'src/dbus_loop.cpp',
-    'src/file_storage.cpp',
-    'src/host_console.cpp',
-    'src/log_buffer.cpp',
-    'src/main.cpp',
-    'src/service.cpp',
-    'src/zlib_exception.cpp',
-    'src/zlib_file.cpp',
-  ],
-  dependencies: [
-    systemd,
-    dependency('phosphor-logging'),
-    dependency('zlib'),
-  ],
-  install: true
-)
+if get_option('stream').enabled()
+  executable(
+    'hostlogger',
+    [
+      'src/stream_main.cpp',
+      'src/stream_service.cpp',
+      'src/host_console.cpp',
+      'src/dbus_loop.cpp',
+      'src/config.cpp',
+    ],
+    dependencies: [
+      systemd,
+      dependency('phosphor-logging'),
+    ],
+    install: true,
+  )
+else
+  executable(
+    'hostlogger',
+    [
+      version,
+      'src/config.cpp',
+      'src/dbus_loop.cpp',
+      'src/file_storage.cpp',
+      'src/host_console.cpp',
+      'src/log_buffer.cpp',
+      'src/main.cpp',
+      'src/service.cpp',
+      'src/zlib_exception.cpp',
+      'src/zlib_file.cpp',
+    ],
+    dependencies: [
+      systemd,
+      dependency('phosphor-logging'),
+      dependency('zlib'),
+    ],
+    install: true
+  )
+endif
