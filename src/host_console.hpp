@@ -19,7 +19,7 @@ class HostConsole
      */
     HostConsole(const std::string& socketId);
 
-    ~HostConsole();
+    virtual ~HostConsole();
 
     /**
      * @brief Connect to the host's console via socket.
@@ -27,7 +27,7 @@ class HostConsole
      * @throw std::invalid_argument if socket ID is invalid
      * @throw std::system_error in case of other errors
      */
-    void connect();
+    virtual void connect();
 
     /**
      * @brief Non-blocking read data from console's socket.
@@ -39,10 +39,10 @@ class HostConsole
      *
      * @return number of actually read bytes
      */
-    size_t read(char* buf, size_t sz) const;
+    virtual size_t read(char* buf, size_t sz) const;
 
     /** @brief Get socket file descriptor, used for watching IO. */
-    operator int() const;
+    virtual operator int() const;
 
   private:
     /** @brief Socket Id. */
