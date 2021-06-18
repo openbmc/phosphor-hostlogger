@@ -3,11 +3,19 @@
 
 #include "config.hpp"
 
+#include <sys/un.h>
+
 #include <algorithm>
 #include <climits>
 #include <cstring>
 #include <stdexcept>
 #include <string>
+
+namespace
+{
+constexpr char bufferModeStr[] = "buffer";
+constexpr char streamModeStr[] = "stream";
+} // namespace
 
 /**
  * @brief Set boolean value from environment variable.
@@ -89,18 +97,46 @@ static void safeSet(const char* name, const char*& value)
 Config::Config()
 {
     safeSet("SOCKET_ID", socketId);
-    safeSet("BUF_MAXSIZE", bufMaxSize);
-    safeSet("BUF_MAXTIME", bufMaxTime);
-    safeSet("FLUSH_FULL", bufFlushFull);
-    safeSet("HOST_STATE", hostState);
-    safeSet("OUT_DIR", outDir);
-    safeSet("MAX_FILES", maxFiles);
-
-    // Validate parameters
-    if (bufFlushFull && !bufMaxSize && !bufMaxTime)
+    const char* mode_str = bufferModeStr;
+    safeSet("MODE", mode_str);
+    if (strcmp(mode_str, bufferModeStr) == 0)
+    {
+        mode = Mode::bufferMode;
+    }
+    else if (strcmp(mode_str, streamModeStr) == 0)
+    {
+        mode = Mode::streamMode;
+    }
+    else
     {
         throw std::invalid_argument(
-            "Flush policy is set to save the buffer as it fills, but buffer's "
-            "limits are not defined");
+            "Invalid value for mode; expect either 'stream' or 'buffer'");
+    }
+
+    if (mode == Mode::bufferMode)
+    {
+        safeSet("BUF_MAXSIZE", bufMaxSize);
+        safeSet("BUF_MAXTIME", bufMaxTime);
+        safeSet("FLUSH_FULL", bufFlushFull);
+        safeSet("HOST_STATE", hostState);
+        safeSet("OUT_DIR", outDir);
+        safeSet("MAX_FILES", maxFiles);
+        // Validate parameters
+        if (bufFlushFull && !bufMaxSize && !bufMaxTime)
+        {
+            throw std::invalid_argument("Flush policy is set to save the "
+                                        "buffer as it fills, but buffer's "
+                                        "limits are not defined");
+        }
+    }
+    else
+    {
+        // mode == Mode::streamMode
+        safeSet("STREAM_DST", streamDestination);
+        // We need an extra +1 for null terminator.
+        if (strlen(streamDestination) + 1 > sizeof(sockaddr_un::sun_path))
+        {
+            throw std::invalid_argument("Invalid STREAM_DST: too long");
+        }
     }
 }
