@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (C) 2020 YADRO
 
+#include "buffer_service.hpp"
 #include "config.hpp"
 #include "service.hpp"
+#include "stream_service.hpp"
 #include "version.hpp"
 
 #include <getopt.h>
@@ -63,9 +65,24 @@ int main(int argc, char* argv[])
 
     try
     {
-        Config cfg;
-        Service svc(cfg);
-        svc.run();
+        Config config;
+        DbusLoop dbus_loop;
+        HostConsole host_console(config.socketId);
+        std::unique_ptr<Service> service;
+        if (config.mode == Mode::streamMode)
+        {
+            service = std::make_unique<StreamService>(config.streamDestination,
+                                                      dbus_loop, host_console);
+        }
+        else
+        {
+            LogBuffer logBuffer(config.bufMaxSize, config.bufMaxTime);
+            FileStorage fileStorage(config.outDir, config.socketId,
+                                    config.maxFiles);
+            service = std::make_unique<BufferService>(
+                config, dbus_loop, host_console, logBuffer, fileStorage);
+        }
+        service->run();
     }
     catch (const std::exception& ex)
     {

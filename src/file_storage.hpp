@@ -26,6 +26,8 @@ class FileStorage
     FileStorage(const std::string& path, const std::string& prefix,
                 size_t maxFiles);
 
+    virtual ~FileStorage() = default;
+
     /**
      * @brief Save log buffer to a file.
      *
@@ -35,7 +37,7 @@ class FileStorage
      *
      * @return path to saved file
      */
-    std::string save(const LogBuffer& buf) const;
+    virtual std::string save(const LogBuffer& buf) const;
 
   private:
     /**
