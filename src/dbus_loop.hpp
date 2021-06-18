@@ -26,14 +26,14 @@ class DbusLoop
     using WatchProperties = std::map<std::string, Properties>;
 
     DbusLoop();
-    ~DbusLoop();
+    virtual ~DbusLoop();
 
     /**
      * @brief Run worker loop.
      *
      * @return exit code from loop
      */
-    int run() const;
+    virtual int run() const;
 
     /**
      * @brief Stop worker loop.
@@ -53,9 +53,9 @@ class DbusLoop
      *
      * @throw std::system_error in case of errors
      */
-    void addPropertyHandler(const std::string& objPath,
-                            const WatchProperties& props,
-                            std::function<void()> callback);
+    virtual void addPropertyHandler(const std::string& objPath,
+                                    const WatchProperties& props,
+                                    std::function<void()> callback);
 
     /**
      * @brief Add IO event handler.
@@ -65,7 +65,7 @@ class DbusLoop
      *
      * @throw std::system_error in case of errors
      */
-    void addIoHandler(int fd, std::function<void()> callback);
+    virtual void addIoHandler(int fd, std::function<void()> callback);
 
     /**
      * @brief Add signal handler.
@@ -75,7 +75,7 @@ class DbusLoop
      *
      * @throw std::system_error in case of errors
      */
-    void addSignalHandler(int signal, std::function<void()> callback);
+    virtual void addSignalHandler(int signal, std::function<void()> callback);
 
   private:
     /**
