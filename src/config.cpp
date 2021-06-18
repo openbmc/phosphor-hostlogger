@@ -9,6 +9,7 @@
 #include <stdexcept>
 #include <string>
 
+#ifdef BUFFER_SERVICE
 /**
  * @brief Set boolean value from environment variable.
  *
@@ -70,6 +71,7 @@ static void safeSet(const char* name, size_t& value)
         }
     }
 }
+#endif
 
 /**
  * @brief Set string value from environment variable.
@@ -89,13 +91,13 @@ static void safeSet(const char* name, const char*& value)
 Config::Config()
 {
     safeSet("SOCKET_ID", socketId);
+#ifdef BUFFER_SERVICE
     safeSet("BUF_MAXSIZE", bufMaxSize);
     safeSet("BUF_MAXTIME", bufMaxTime);
     safeSet("FLUSH_FULL", bufFlushFull);
     safeSet("HOST_STATE", hostState);
     safeSet("OUT_DIR", outDir);
     safeSet("MAX_FILES", maxFiles);
-
     // Validate parameters
     if (bufFlushFull && !bufMaxSize && !bufMaxTime)
     {
@@ -103,4 +105,8 @@ Config::Config()
             "Flush policy is set to save the buffer as it fills, but buffer's "
             "limits are not defined");
     }
+#endif
+#ifdef STREAM_SERVICE
+    safeSet("STREAM_DST", streamDestination);
+#endif
 }

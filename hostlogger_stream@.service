@@ -1,0 +1,13 @@
+[Unit]
+Description=Host logger (stream service) for %i
+BindsTo=obmc-console@%i.service
+After=obmc-console@%i.service
+
+[Service]
+ExecStart=/usr/bin/env hostlogger_stream
+EnvironmentFile=/etc/hostlogger_stream/%i.conf
+Restart=always
+SyslogIdentifier=hostlogger_stream-%i
+
+[Install]
+WantedBy=multi-user.target

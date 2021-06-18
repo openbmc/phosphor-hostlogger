@@ -1,5 +1,5 @@
 [Unit]
-Description=Host logger for %i
+Description=Host logger (buffer service) for %i
 BindsTo=obmc-console@%i.service
 After=obmc-console@%i.service
 

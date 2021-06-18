@@ -2,3 +2,15 @@
 option('tests',
        type: 'feature',
        description: 'Build tests')
+
+# Enable the stream based service.
+option('stream',
+       type: 'feature',
+       value : 'enabled',
+       description: 'Enable the stream based service')
+
+# Enable the stream based service.
+option('buffer',
+       type: 'feature',
+       value : 'enabled',
+       description: 'Enable the stream based service')

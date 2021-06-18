@@ -20,6 +20,8 @@ struct Config
 
     /** @brief Socket ID used for connection with host console. */
     const char* socketId = "";
+
+#ifdef BUFFER_SERVICE
     /** @brief Max number of messages stored inside intermediate buffer. */
     size_t bufMaxSize = 3000;
     /** @brief Max age of messages (in minutes) inside intermediate buffer. */
@@ -32,4 +34,10 @@ struct Config
     const char* outDir = "/var/lib/obmc/hostlogs";
     /** @brief Max number of log files in the output directory. */
     size_t maxFiles = 10;
+#endif
+#ifdef STREAM_SERVICE
+    /** @brief Path to the unix socket that receives the log stream. Valid only
+     * if the stream feature is ON*/
+    const char* streamDestination = "/run/rsyslog/console_input";
+#endif
 };
