@@ -32,4 +32,7 @@ struct Config
     const char* outDir = "/var/lib/obmc/hostlogs";
     /** @brief Max number of log files in the output directory. */
     size_t maxFiles = 10;
+    /** @brief Path to the unix socket that receives the log stream. Valid only
+     * if the stream feature is ON*/
+    const char* streamDestination = "/run/rsyslog/console_input";
 };

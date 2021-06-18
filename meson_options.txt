@@ -2,3 +2,9 @@
 option('tests',
        type: 'feature',
        description: 'Build tests')
+
+# Enable the stream based service rather than the buffer based service.
+option('stream',
+       type: 'feature',
+       value : 'disabled',
+       description: 'Enable the stream based service')
