@@ -95,7 +95,7 @@ Config::Config()
     safeSet("HOST_STATE", hostState);
     safeSet("OUT_DIR", outDir);
     safeSet("MAX_FILES", maxFiles);
-
+    safeSet("STREAM_DST", streamDestination);
     // Validate parameters
     if (bufFlushFull && !bufMaxSize && !bufMaxTime)
     {

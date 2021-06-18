@@ -13,6 +13,7 @@ static const char* FLUSH_FULL = "FLUSH_FULL";
 static const char* HOST_STATE = "HOST_STATE";
 static const char* OUT_DIR = "OUT_DIR";
 static const char* MAX_FILES = "MAX_FILES";
+static const char* STREAM_DST = "STREAM_DST";
 
 /**
  * @class ConfigTest
@@ -41,6 +42,7 @@ class ConfigTest : public ::testing::Test
         unsetenv(HOST_STATE);
         unsetenv(OUT_DIR);
         unsetenv(MAX_FILES);
+        unsetenv(STREAM_DST);
     }
 };
 
@@ -54,6 +56,7 @@ TEST_F(ConfigTest, Defaults)
     EXPECT_STREQ(cfg.hostState, "/xyz/openbmc_project/state/host0");
     EXPECT_STREQ(cfg.outDir, "/var/lib/obmc/hostlogs");
     EXPECT_EQ(cfg.maxFiles, 10);
+    EXPECT_STREQ(cfg.streamDestination, "/run/rsyslog/console_input");
 }
 
 TEST_F(ConfigTest, Load)
@@ -65,6 +68,7 @@ TEST_F(ConfigTest, Load)
     setenv(HOST_STATE, "host123", 1);
     setenv(OUT_DIR, "path123", 1);
     setenv(MAX_FILES, "1122", 1);
+    setenv(STREAM_DST, "path123", 1);
 
     Config cfg;
     EXPECT_STREQ(cfg.socketId, "id123");
@@ -74,6 +78,7 @@ TEST_F(ConfigTest, Load)
     EXPECT_STREQ(cfg.hostState, "host123");
     EXPECT_STREQ(cfg.outDir, "path123");
     EXPECT_EQ(cfg.maxFiles, 1122);
+    EXPECT_STREQ(cfg.streamDestination, "path123");
 }
 
 TEST_F(ConfigTest, InvalidNumeric)
