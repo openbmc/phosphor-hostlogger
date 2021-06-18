@@ -5,6 +5,12 @@
 
 #include <cstddef>
 
+enum class Mode
+{
+    bufferMode,
+    streamMode
+};
+
 /**
  * @struct Config
  * @brief Configuration of the service, initialized with default values.
@@ -18,8 +24,13 @@ struct Config
      */
     Config();
 
+    /** The following configs are for both modes. */
     /** @brief Socket ID used for connection with host console. */
     const char* socketId = "";
+    /** @brief The mode the service is in. */
+    Mode mode = Mode::bufferMode;
+
+    /** The following configs are for buffer mode. */
     /** @brief Max number of messages stored inside intermediate buffer. */
     size_t bufMaxSize = 3000;
     /** @brief Max age of messages (in minutes) inside intermediate buffer. */
@@ -32,4 +43,8 @@ struct Config
     const char* outDir = "/var/lib/obmc/hostlogs";
     /** @brief Max number of log files in the output directory. */
     size_t maxFiles = 10;
+
+    /** The following configs are for stream mode. */
+    /** @brief Path to the unix socket that receives the log stream. */
+    const char* streamDestination = "/run/rsyslog/console_input";
 };

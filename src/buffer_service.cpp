@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (C) 2020 YADRO
 
-#include "service.hpp"
+#include "buffer_service.hpp"
 
 #include <phosphor-logging/log.hpp>
 
@@ -31,34 +31,36 @@ static const DbusLoop::WatchProperties watchProperties{
 };
 // clang-format on
 
-Service::Service(const Config& config) :
-    config(config), hostConsole(config.socketId),
-    logBuffer(config.bufMaxSize, config.bufMaxTime),
-    fileStorage(config.outDir, config.socketId, config.maxFiles)
+BufferService::BufferService(const Config& config, DbusLoop& dbusLoop,
+                             HostConsole& hostConsole, LogBuffer& logBuffer,
+                             FileStorage& fileStorage) :
+    config(config),
+    dbusLoop(&dbusLoop), hostConsole(&hostConsole), logBuffer(&logBuffer),
+    fileStorage(&fileStorage)
 {}
 
-void Service::run()
+void BufferService::run()
 {
     if (config.bufFlushFull)
     {
-        logBuffer.setFullHandler([this]() { this->flush(); });
+        logBuffer->setFullHandler([this]() { this->flush(); });
     }
 
-    hostConsole.connect();
+    hostConsole->connect();
 
     // Add SIGUSR1 signal handler for manual flushing
-    dbusLoop.addSignalHandler(SIGUSR1, [this]() { this->flush(); });
+    dbusLoop->addSignalHandler(SIGUSR1, [this]() { this->flush(); });
     // Add SIGTERM signal handler for service shutdown
-    dbusLoop.addSignalHandler(SIGTERM, [this]() { this->dbusLoop.stop(0); });
+    dbusLoop->addSignalHandler(SIGTERM, [this]() { this->dbusLoop->stop(0); });
 
     // Register callback for socket IO
-    dbusLoop.addIoHandler(hostConsole, [this]() { this->readConsole(); });
+    dbusLoop->addIoHandler(*hostConsole, [this]() { this->readConsole(); });
 
     // Register host state watcher
     if (*config.hostState)
     {
-        dbusLoop.addPropertyHandler(config.hostState, watchProperties,
-                                    [this]() { this->flush(); });
+        dbusLoop->addPropertyHandler(config.hostState, watchProperties,
+                                     [this]() { this->flush(); });
     }
 
     if (!*config.hostState && !config.bufFlushFull)
@@ -76,8 +78,8 @@ void Service::run()
                       entry("MaxFiles=%lu", config.maxFiles));
 
     // Run D-Bus event loop
-    const int rc = dbusLoop.run();
-    if (!logBuffer.empty())
+    const int rc = dbusLoop->run();
+    if (!logBuffer->empty())
     {
         flush();
     }
@@ -88,17 +90,17 @@ void Service::run()
     }
 }
 
-void Service::flush()
+void BufferService::flush()
 {
-    if (logBuffer.empty())
+    if (logBuffer->empty())
     {
         log<level::INFO>("Ignore flush: buffer is empty");
         return;
     }
     try
     {
-        const std::string fileName = fileStorage.save(logBuffer);
-        logBuffer.clear();
+        const std::string fileName = fileStorage->save(*logBuffer);
+        logBuffer->clear();
 
         std::string msg = "Host logs flushed to ";
         msg += fileName;
@@ -110,7 +112,7 @@ void Service::flush()
     }
 }
 
-void Service::readConsole()
+void BufferService::readConsole()
 {
     constexpr size_t bufSize = 128; // enough for most line-oriented output
     std::vector<char> bufData(bufSize);
@@ -118,9 +120,9 @@ void Service::readConsole()
 
     try
     {
-        while (const size_t rsz = hostConsole.read(buf, bufSize))
+        while (const size_t rsz = hostConsole->read(buf, bufSize))
         {
-            logBuffer.append(buf, rsz);
+            logBuffer->append(buf, rsz);
         }
     }
     catch (const std::system_error& ex)
