@@ -3,6 +3,8 @@
 
 #include "config.hpp"
 
+#include <sys/un.h>
+
 #include <algorithm>
 #include <climits>
 #include <cstring>
@@ -89,18 +91,35 @@ static void safeSet(const char* name, const char*& value)
 Config::Config()
 {
     safeSet("SOCKET_ID", socketId);
-    safeSet("BUF_MAXSIZE", bufMaxSize);
-    safeSet("BUF_MAXTIME", bufMaxTime);
-    safeSet("FLUSH_FULL", bufFlushFull);
-    safeSet("HOST_STATE", hostState);
-    safeSet("OUT_DIR", outDir);
-    safeSet("MAX_FILES", maxFiles);
-
-    // Validate parameters
-    if (bufFlushFull && !bufMaxSize && !bufMaxTime)
+    safeSet("BUFFER_MODE", bufferModeEnabled);
+    safeSet("STREAM_MODE", streamModeEnabled);
+    if (!(bufferModeEnabled || streamModeEnabled))
     {
-        throw std::invalid_argument(
-            "Flush policy is set to save the buffer as it fills, but buffer's "
-            "limits are not defined");
+        throw std::invalid_argument("At least one mode should be enabled");
+    }
+    if (bufferModeEnabled)
+    {
+        safeSet("BUF_MAXSIZE", bufMaxSize);
+        safeSet("BUF_MAXTIME", bufMaxTime);
+        safeSet("FLUSH_FULL", bufFlushFull);
+        safeSet("HOST_STATE", hostState);
+        safeSet("OUT_DIR", outDir);
+        safeSet("MAX_FILES", maxFiles);
+        // Validate parameters
+        if (bufFlushFull && !bufMaxSize && !bufMaxTime)
+        {
+            throw std::invalid_argument("Flush policy is set to save the "
+                                        "buffer as it fills, but buffer's "
+                                        "limits are not defined");
+        }
+    }
+    if (streamModeEnabled)
+    {
+        safeSet("STREAM_DST", streamDestination);
+        // We need an extra +1 for null terminator.
+        if (strlen(streamDestination) + 1 > sizeof(sockaddr_un::sun_path))
+        {
+            throw std::invalid_argument("Invalid STREAM_DST: too long");
+        }
     }
 }

@@ -4,15 +4,21 @@ The main purpose of the Host Logger project is to handle and store host's
 console output data, such as boot logs or Linux kernel messages printed to the
 system console.
 
-Host logs are stored in a temporary buffer and flushed to a file according to
-the policy that can be defined with service parameters. It gives the ability to
-save the last boot log and subsequent messages in separate files.
+There are two modes in Host Logger.
+
+Buffer mode: host logs are stored in a temporary buffer and flushed to a file
+according to the policy that can be defined with service parameters. It gives
+the ability to save the last boot log and subsequent messages in separate files.
+
+Stream mode: host logs are forwarded into a server socket (e.g. a socket created
+by the rsyslog imuxsock module).
 
 ## Architecture
 
 Host Logger is a standalone service (daemon) that works on top of the
 obmc-console and uses its UNIX domain socket to read the console output.
 
+### The Buffer Mode
 ```
 +-------------+                                       +----------------+
 |    Host     | State  +---------------------+ Event  |   Host Logger  |
@@ -28,12 +34,35 @@ obmc-console and uses its UNIX domain socket to read the console output.
 ```
 
 Unlike the obmc-console project, where console output is a binary byte stream,
-the Host Logger service interprets this stream: splits it into separate
+the service in buffer mode interprets this stream: splits it into separate
 messages, adds a time stamp and pushes the message into an internal buffer.
 Maximum size of the buffer and flush conditions are controlled by service
 parameters.
 
+### The Stream Mode
+
+```
++-----------+                               +-------------+      +------------+
+|           |                               |             |      |            |
+|   HOST    |                               | HOST LOGGER |      |  RSYSLOG   |
+|           |                               |             |      | +--------+ |  +---------+
+|           |                               |             |      | | OMFILE ----->LOG FILES|--+
+|           |   +--------------------+      |             |      | +--------+ |  +---------+  |
+|           |   |OBMC-CONSOLE-SERVER |      |             |      |            |  +------------v---+
+|+---------+|   |   +-------------+  |STREAM|+-----------+|DGRAM | +--------+ |  | REDFISH        |
+|| CONSOLE -----|-->| UNIX SOCKET |---------->  SERVICE  --------->|IMUXSOCK| |  | LOGSERVICE &   |
+|+---------+|   |   +-------------+  |      |+-----------+|      | +--------+ |  | EVENTSERVICE   |
++-----------+   +--------------------+      +-------------+      +------------+  +----------------+
+```
+
+The service in stream mode forwards the byte stream into rsyslog via the imuxsock
+module. The log is persisted via the omfile module as soon as collected. It makes
+Host Logger leverage exsisting tools (rsyslog and logrotate). It also fits in the
+Redfish LogService and EventService architecture in OpenBMC.
+
 ## Log buffer rotation policy
+
+### The Buffer Mode
 
 Maximum buffer size can be defined in the service configuration using two ways:
 - Limits by size: buffer will store the last N messages, the oldest messages are
@@ -43,7 +72,14 @@ Maximum buffer size can be defined in the service configuration using two ways:
 
 Any of these parameters can be combined.
 
+### The Stream Mode
+
+Rotation and compression are handled by the [logrotate](https://linux.die.net/man/8/logrotate)
+tool.
+
 ## Log buffer flush policy
+
+### The Buffer Mode
 
 Messages from the buffer will be written to a file when one of the following
 events occurs:
@@ -52,6 +88,10 @@ events occurs:
 - Size of the buffer reaches its limits controlled by `BUF_MAXSIZE` and
   `BUF_MAXTIME` parameters, this mode can be activated by `FLUSH_FULL` flag.
 - Signal `SIGUSR1` is received (manual flush).
+
+### The Stream Mode
+
+Logs are flushed as soon as they are collected.
 
 ## Configuration
 
@@ -69,6 +109,15 @@ If variable's value has an invalid format, the service fails with an error.
 - `SOCKET_ID`: Socket Id used for connection with the host console. This Id
   shall match the "socket-id" parameter of obmc-console server.
   The default value is empty (single-host mode).
+- `BUFFER_MODE`: Turn on buffer mode or not. Possible values: `true` or `false`.
+  The default value is `true`.
+- `STREAM_MODE`: Turn on stream mode or not. Possible values: `true` or `false`.
+  The default value is `true`.
+
+Note the service shall enable at least one mode. The service should enable either
+`BUFFER_MODE` or `STREAM_MODE` to avoid function duplication.
+
+#### The Buffer Mode
 
 - `BUF_MAXSIZE`: Max number of stored messages in the buffer. The default value
   is `3000` (0=unlimited).
@@ -92,6 +141,11 @@ If variable's value has an invalid format, the service fails with an error.
 
 - `MAX_FILES`: Log files rotation, max number of files in the output directory,
   oldest files are removed. The default value is `10` (0=unlimited).
+
+#### The Stream Mode
+
+- `STREAM_DST`: Absolute path to the output unix socket. The default value is
+  `/run/rsyslog/console_input`.
 
 ### Example
 

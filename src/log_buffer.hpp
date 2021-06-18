@@ -37,25 +37,27 @@ class LogBuffer
      */
     LogBuffer(size_t maxSize, size_t maxTime);
 
+    virtual ~LogBuffer() = default;
+
     /**
      * @brief Add raw data from host's console output.
      *
      * @param[in] data pointer to raw data buffer
      * @param[in] sz size of the buffer in bytes
      */
-    void append(const char* data, size_t sz);
+    virtual void append(const char* data, size_t sz);
 
     /**
      * @brief Set handler called if buffer is full.
      *
      * @param[in] cb callback function
      */
-    void setFullHandler(std::function<void()> cb);
+    virtual void setFullHandler(std::function<void()> cb);
 
     /** @brief Clear (reset) container. */
-    void clear();
+    virtual void clear();
     /** @brief Check container for empty. */
-    bool empty() const;
+    virtual bool empty() const;
     /** @brief Get container's iterator. */
     container_t::const_iterator begin() const;
     /** @brief Get container's iterator. */

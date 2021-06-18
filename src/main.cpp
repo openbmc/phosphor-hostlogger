@@ -63,9 +63,24 @@ int main(int argc, char* argv[])
 
     try
     {
-        Config cfg;
-        Service svc(cfg);
-        svc.run();
+        Config config;
+        DbusLoop dbus_loop;
+        HostConsole host_console(config.socketId);
+
+        if (!config.bufferModeEnabled)
+        {
+            Service service(config, dbus_loop, host_console);
+            service.run();
+        }
+        else
+        {
+            LogBuffer logBuffer(config.bufMaxSize, config.bufMaxTime);
+            FileStorage fileStorage(config.outDir, config.socketId,
+                                    config.maxFiles);
+            Service service(config, dbus_loop, host_console, logBuffer,
+                            fileStorage);
+            service.run();
+        }
     }
     catch (const std::exception& ex)
     {
