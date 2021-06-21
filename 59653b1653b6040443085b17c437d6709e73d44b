@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f829d6fd_6817772a",
+        "filename": "README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000682
+      },
+      "writtenOn": "2021-06-21T23:03:50Z",
+      "side": 1,
+      "message": "Done.\n\nI reworded it into \"two applications\".",
+      "parentUuid": "93a4df63_72460c38",
+      "revId": "59653b1653b6040443085b17c437d6709e73d44b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "40657071_f6ea2528",
         "filename": "default.conf",
         "patchSetId": 5
@@ -33,6 +51,24 @@
       "revId": "59653b1653b6040443085b17c437d6709e73d44b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c9a5b3f_7d9325aa",
+        "filename": "default.conf",
+        "patchSetId": 5
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000682
+      },
+      "writtenOn": "2021-06-21T23:03:50Z",
+      "side": 1,
+      "message": "Done. Added a new conf file for the stream app.",
+      "parentUuid": "40657071_f6ea2528",
+      "revId": "59653b1653b6040443085b17c437d6709e73d44b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "90d9c188_142e0130",
+        "filename": "default.conf",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000682
+      },
+      "writtenOn": "2021-06-21T23:03:50Z",
+      "side": 1,
+      "message": "Done. Added a new conf file for the stream app.",
+      "parentUuid": "38ccceb2_29d74878",
+      "revId": "59653b1653b6040443085b17c437d6709e73d44b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6dddda84_6c874cdc",
         "filename": "meson.build",
         "patchSetId": 5
@@ -67,6 +121,24 @@
       "revId": "59653b1653b6040443085b17c437d6709e73d44b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "372262fe_74d8552b",
+        "filename": "meson.build",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000682
+      },
+      "writtenOn": "2021-06-21T23:03:50Z",
+      "side": 1,
+      "message": "Done.\n\nActually majority of the codes (except for the main function) are built and tested in CI.\n\nBut now I turned on both applications by default. CI test both of them.",
+      "parentUuid": "6dddda84_6c874cdc",
+      "revId": "59653b1653b6040443085b17c437d6709e73d44b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "9a504b3e_c872bf6a",
+        "filename": "meson.build",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000682
+      },
+      "writtenOn": "2021-06-21T23:03:50Z",
+      "side": 1,
+      "message": "Done. Please see https://gerrit.openbmc-project.xyz/c/openbmc/openbmc/+/44308",
+      "parentUuid": "9afa21d5_3187567f",
+      "revId": "59653b1653b6040443085b17c437d6709e73d44b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2264a656_b240b92f",
         "filename": "src/config.hpp",
         "patchSetId": 5
@@ -101,6 +191,24 @@
       "revId": "59653b1653b6040443085b17c437d6709e73d44b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65acd6a5_6f0c8659",
+        "filename": "src/config.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000682
+      },
+      "writtenOn": "2021-06-21T23:03:50Z",
+      "side": 1,
+      "message": "Done.\n\nAdded preprocessor.",
+      "parentUuid": "2264a656_b240b92f",
+      "revId": "59653b1653b6040443085b17c437d6709e73d44b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
