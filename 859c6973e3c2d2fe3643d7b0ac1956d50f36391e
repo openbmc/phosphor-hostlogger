@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1604483e_25de567d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000682
+      },
+      "writtenOn": "2021-06-22T20:29:04Z",
+      "side": 1,
+      "message": "Do you mean runtime configure option? I did a compile-time configure option in previous patches (it builds the same binary but with different functionality).",
+      "parentUuid": "76a5e882_18ff2654",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 14
+      },
+      "revId": "859c6973e3c2d2fe3643d7b0ac1956d50f36391e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b4b1d433_27b65038",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
