@@ -92,6 +92,30 @@
       "revId": "859c6973e3c2d2fe3643d7b0ac1956d50f36391e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cb17b79_8c7909d1",
+        "filename": "src/config.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000682
+      },
+      "writtenOn": "2021-06-22T20:34:17Z",
+      "side": 1,
+      "message": "configs related to log rotation like maxFiles, bufMaxSize, and bufMaxTime are needed and will be added as a configuration of logrotate.\n\nThe flush option is not needed anymore. hostState is not used at the moment, it can be added in the future.",
+      "parentUuid": "a329ff45_7e630289",
+      "range": {
+        "startLine": 39,
+        "startChar": 3,
+        "endLine": 41,
+        "endChar": 65
+      },
+      "revId": "859c6973e3c2d2fe3643d7b0ac1956d50f36391e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
