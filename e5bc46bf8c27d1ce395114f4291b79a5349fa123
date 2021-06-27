@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bde7bc4c_3a13c451",
+        "filename": "default.conf",
+        "patchSetId": 8
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000131
+      },
+      "writtenOn": "2021-06-27T07:09:48Z",
+      "side": 1,
+      "message": "This allows to activate both modes at the same time.\nDo we need to support such behavior?",
+      "revId": "e5bc46bf8c27d1ce395114f4291b79a5349fa123",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee9f5783_a2e9edf1",
+        "filename": "src/service.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000131
+      },
+      "writtenOn": "2021-06-27T07:09:48Z",
+      "side": 1,
+      "message": "I would be better to split the Service implementation. Something like ServiceStream and ServiceBuffer.\nBut you will have to move out the DBus loop to the top.",
+      "revId": "e5bc46bf8c27d1ce395114f4291b79a5349fa123",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
