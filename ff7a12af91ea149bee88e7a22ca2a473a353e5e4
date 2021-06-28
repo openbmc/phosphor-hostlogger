@@ -33,6 +33,24 @@
       "revId": "ff7a12af91ea149bee88e7a22ca2a473a353e5e4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad05382a_09d4202c",
+        "filename": "src/main.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000682
+      },
+      "writtenOn": "2021-06-28T15:35:47Z",
+      "side": 1,
+      "message": "I changed the code here so no lifecylce issues anymore. \n\nI did the injection mostly for unit-testing. If you don\u0027t like it, for sure I can remove them from BufferService.",
+      "parentUuid": "f2fb3a0e_3313381f",
+      "revId": "ff7a12af91ea149bee88e7a22ca2a473a353e5e4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
