@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c5eeaa3a_fd66d0d4",
+        "filename": "README.md",
+        "patchSetId": 17
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000682
+      },
+      "writtenOn": "2021-06-29T17:00:04Z",
+      "side": 1,
+      "message": "Thanks for your comments! I added some words to describe the goals. These two names actually came from the discussion thread with Artem. I would like to keep the name of the new mode still \"stream\". I think \"stream\" already delivers the realtime meaning. \"buffer\" can be changed if necessary, is \"session mode\" the preferred name?",
+      "parentUuid": "e1d0e92b_7d9a3acf",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 32
+      },
+      "revId": "f299f19fa9fc34270898e8430e96e0eed748c44b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ee45fa6_b19f4926",
         "filename": "README.md",
         "patchSetId": 17
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "556af6e0_99ce0b9a",
+        "filename": "README.md",
+        "patchSetId": 17
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000682
+      },
+      "writtenOn": "2021-06-29T17:00:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ee45fa6_b19f4926",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 8
+      },
+      "revId": "f299f19fa9fc34270898e8430e96e0eed748c44b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98dd14f1_be167bf3",
         "filename": "README.md",
         "patchSetId": 17
@@ -62,6 +110,24 @@
       "revId": "f299f19fa9fc34270898e8430e96e0eed748c44b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2898dd26_e1f22b72",
+        "filename": "README.md",
+        "patchSetId": 17
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1000682
+      },
+      "writtenOn": "2021-06-29T17:00:04Z",
+      "side": 1,
+      "message": "Thanks for your comment. This decision comes from earlier comment thread in this change. I believe as for now, we don\u0027t need these two modes running at the same time.",
+      "parentUuid": "98dd14f1_be167bf3",
+      "revId": "f299f19fa9fc34270898e8430e96e0eed748c44b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -85,6 +151,30 @@
       "revId": "f299f19fa9fc34270898e8430e96e0eed748c44b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81abb0ca_1ea3c775",
+        "filename": "src/buffer_service.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000682
+      },
+      "writtenOn": "2021-06-29T17:00:04Z",
+      "side": 1,
+      "message": "This is aligned with existing codes from YADRO. Is it OK if we refresh the copyright in separate changes?",
+      "parentUuid": "1321142a_16413be8",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 27
+      },
+      "revId": "f299f19fa9fc34270898e8430e96e0eed748c44b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
