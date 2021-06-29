@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1d0e92b_7d9a3acf",
+        "filename": "README.md",
+        "patchSetId": 17
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2021-06-29T11:45:43Z",
+      "side": 1,
+      "message": "This shouldn\u0027t go from implementation details but from the goals: while what you called \"buffer mode\" aimed to provide pairs of \"startup log + shutdown log\", the new mode\u0027s goal is to provide latest logs in almost realtime. Given that I would name e.g. \"session mode\" and \"lastlog mode\".",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 32
+      },
+      "revId": "f299f19fa9fc34270898e8430e96e0eed748c44b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ee45fa6_b19f4926",
+        "filename": "README.md",
+        "patchSetId": 17
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2021-06-29T11:45:43Z",
+      "side": 1,
+      "message": "Please, unify style in both schemes",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 8
+      },
+      "revId": "f299f19fa9fc34270898e8430e96e0eed748c44b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98dd14f1_be167bf3",
+        "filename": "README.md",
+        "patchSetId": 17
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2021-06-29T11:45:43Z",
+      "side": 1,
+      "message": "Are you sure this mode should be mutually exclusive?",
+      "revId": "f299f19fa9fc34270898e8430e96e0eed748c44b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1321142a_16413be8",
+        "filename": "src/buffer_service.hpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000879
+      },
+      "writtenOn": "2021-06-29T11:45:43Z",
+      "side": 1,
+      "message": "At least it should be 2021...",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 27
+      },
+      "revId": "f299f19fa9fc34270898e8430e96e0eed748c44b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
