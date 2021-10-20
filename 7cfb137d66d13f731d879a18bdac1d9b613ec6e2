@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e5d721e_54794402",
+        "filename": "src/buffer_service.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000131
+      },
+      "writtenOn": "2021-10-20T07:51:51Z",
+      "side": 1,
+      "message": "It seems this change doesn\u0027t make sense.\nWe can just check the first byte for zero (like it did before) instead of compare with en empty string.",
+      "revId": "7cfb137d66d13f731d879a18bdac1d9b613ec6e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
