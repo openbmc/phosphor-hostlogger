@@ -92,6 +92,10 @@ static void safeSet(const char* name, const char*& value)
     {
         value = envVal;
     }
+    else
+    {
+        value = "";
+    }
 }
 
 Config::Config()

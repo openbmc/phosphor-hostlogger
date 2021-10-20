@@ -5,6 +5,7 @@
 
 #include <phosphor-logging/log.hpp>
 
+#include <cstring>
 #include <vector>
 
 using namespace phosphor::logging;
@@ -57,13 +58,13 @@ void BufferService::run()
     dbusLoop->addIoHandler(*hostConsole, [this]() { this->readConsole(); });
 
     // Register host state watcher
-    if (*config.hostState)
+    if (strcmp(config.hostState, "") != 0)
     {
         dbusLoop->addPropertyHandler(config.hostState, watchProperties,
                                      [this]() { this->flush(); });
     }
 
-    if (!*config.hostState && !config.bufFlushFull)
+    if ((strcmp(config.hostState, "") == 0) && !config.bufFlushFull)
     {
         log<level::WARNING>("Automatic flush disabled");
     }
