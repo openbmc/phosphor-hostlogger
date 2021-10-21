@@ -37,8 +37,9 @@ struct Config
     size_t bufMaxTime = 0;
     /** @brief Flag indicated we need to flush console buffer as it fills. */
     bool bufFlushFull = false;
-    /** @brief Path to D-Bus object that provides host's state information. */
-    const char* hostState = "/xyz/openbmc_project/state/host0";
+    /** @brief Path to D-Bus object that provides host's state information,
+     * optional */
+    const char* hostState = "";
     /** @brief Absolute path to the output directory for log files. */
     const char* outDir = "/var/lib/obmc/hostlogs";
     /** @brief Max number of log files in the output directory. */

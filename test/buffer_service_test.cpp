@@ -143,9 +143,6 @@ TEST_F(BufferServiceTest, RunOk)
     EXPECT_CALL(logBufferMock, setFullHandler(_)).WillOnce(Return());
     EXPECT_CALL(dbusLoopMock, addSignalHandler(Eq(SIGUSR1), _))
         .WillOnce(Return());
-    EXPECT_CALL(dbusLoopMock,
-                addPropertyHandler(StrEq(ConfigInTest::config.hostState), _, _))
-        .WillOnce(Return());
     EXPECT_CALL(dbusLoopMock, run).WillOnce(Return(0));
     EXPECT_CALL(logBufferMock, empty()).WillOnce(Return(false));
     EXPECT_CALL(*this, flush()).WillOnce(Return());

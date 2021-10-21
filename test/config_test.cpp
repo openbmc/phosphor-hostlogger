@@ -58,7 +58,7 @@ TEST_F(ConfigTest, Defaults)
     EXPECT_EQ(cfg.bufMaxSize, 3000);
     EXPECT_EQ(cfg.bufMaxTime, 0);
     EXPECT_EQ(cfg.bufFlushFull, false);
-    EXPECT_STREQ(cfg.hostState, "/xyz/openbmc_project/state/host0");
+    EXPECT_STREQ(cfg.hostState, "");
     EXPECT_STREQ(cfg.outDir, "/var/lib/obmc/hostlogs");
     EXPECT_EQ(cfg.maxFiles, 10);
     EXPECT_STREQ(cfg.streamDestination, "/run/rsyslog/console_input");
@@ -103,7 +103,7 @@ TEST_F(ConfigTest, LoadInStreamMode)
     EXPECT_EQ(cfg.bufMaxSize, 3000);
     EXPECT_EQ(cfg.bufMaxTime, 0);
     EXPECT_EQ(cfg.bufFlushFull, false);
-    EXPECT_STREQ(cfg.hostState, "/xyz/openbmc_project/state/host0");
+    EXPECT_STREQ(cfg.hostState, "");
     EXPECT_STREQ(cfg.outDir, "/var/lib/obmc/hostlogs");
     EXPECT_EQ(cfg.maxFiles, 10);
 }
