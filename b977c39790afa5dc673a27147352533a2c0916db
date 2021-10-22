@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "295c17d2_e3da5e95",
+        "filename": "src/config.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000131
+      },
+      "writtenOn": "2021-10-22T05:36:58Z",
+      "side": 1,
+      "message": "I don\u0027t think it is a good idea, this change breaks compatibility with previous versions.",
+      "revId": "b977c39790afa5dc673a27147352533a2c0916db",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
