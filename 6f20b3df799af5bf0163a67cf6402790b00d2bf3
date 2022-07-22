@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e4e06ee_84b198eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-07-22T20:52:06Z",
+      "side": 1,
+      "message": "The current code in the repo fails some shellcheck, unrelated to this change.",
+      "revId": "6f20b3df799af5bf0163a67cf6402790b00d2bf3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
