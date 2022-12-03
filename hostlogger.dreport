@@ -4,7 +4,7 @@
 # @brief: Collect host's logs
 #
 
-# shellcheck disable=SC1090 # library comes from phosphor-debug-collector repo.
+# shellcheck source=/dev/null # library comes from phosphor-debug-collector repo.
 . "${DREPORT_INCLUDE}/functions"
 
 DESCRIPTION="Host logs"
