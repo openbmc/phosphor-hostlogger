@@ -20,6 +20,7 @@ Host Logger is a standalone service (daemon) that works on top of the
 obmc-console and uses its UNIX domain socket to read the console output.
 
 ### The Buffer Mode
+
 ```
 +-------------+                                       +----------------+
 |    Host     | State  +---------------------+ Event  |   Host Logger  |
@@ -56,16 +57,18 @@ parameters.
 +-----------+   +--------------------+      +-------------+      +------------+  +----------------+
 ```
 
-The service in stream mode forwards the byte stream into rsyslog via the imuxsock
-module. The log is persisted via the omfile module as soon as collected. It makes
-Host Logger leverage exsisting tools (rsyslog and logrotate). It also fits in the
-Redfish LogService and EventService architecture in OpenBMC.
+The service in stream mode forwards the byte stream into rsyslog via the
+imuxsock module. The log is persisted via the omfile module as soon as
+collected. It makes Host Logger leverage exsisting tools (rsyslog and
+logrotate). It also fits in the Redfish LogService and EventService architecture
+in OpenBMC.
 
 ## Log buffer rotation policy
 
 ### The Buffer Mode
 
 Maximum buffer size can be defined in the service configuration using two ways:
+
 - Limits by size: buffer will store the last N messages, the oldest messages are
   removed. Controlled by `BUF_MAXSIZE` option.
 - Limits by time: buffer will store messages for the last N minutes, oldest
@@ -75,8 +78,8 @@ Any of these parameters can be combined.
 
 ### The Stream Mode
 
-Rotation and compression are handled by the [logrotate](https://linux.die.net/man/8/logrotate)
-tool.
+Rotation and compression are handled by the
+[logrotate](https://linux.die.net/man/8/logrotate) tool.
 
 ## Log buffer flush policy
 
@@ -84,6 +87,7 @@ tool.
 
 Messages from the buffer will be written to a file when one of the following
 events occurs:
+
 - Host changes its state (start, reboot or shut down). The service watches the
   state via the D-Bus object specified in `HOST_STATE` parameter.
 - Size of the buffer reaches its limits controlled by `BUF_MAXSIZE` and
@@ -97,10 +101,10 @@ Logs are flushed as soon as they are collected.
 ## Configuration
 
 Configuration of the service is loaded from environment variables, so each
-instance of the service can have its own set of parameters.
-Environment files are stored in the directory `/etc/hostlogger` and must have
-the extension `conf`. The file name is the name of the associated Host logger
-instance and the instance of the obmc-console service (e.g. `ttyVUART0`).
+instance of the service can have its own set of parameters. Environment files
+are stored in the directory `/etc/hostlogger` and must have the extension
+`conf`. The file name is the name of the associated Host logger instance and the
+instance of the obmc-console service (e.g. `ttyVUART0`).
 
 ### Environment variables
 
@@ -108,18 +112,18 @@ Any of these variables can be omitted, in which cases default values are used.
 If variable's value has an invalid format, the service fails with an error.
 
 - `SOCKET_ID`: Socket Id used for connection with the host console. This Id
-  shall match the "socket-id" parameter of obmc-console server.
-  The default value is empty (single-host mode).
-- `MODE`: The mode that the service is running in. Possible values: `buffer`
-  or `stream`. The default value is `buffer`.
+  shall match the "socket-id" parameter of obmc-console server. The default
+  value is empty (single-host mode).
+- `MODE`: The mode that the service is running in. Possible values: `buffer` or
+  `stream`. The default value is `buffer`.
 
 #### The Buffer Mode
 
 - `BUF_MAXSIZE`: Max number of stored messages in the buffer. The default value
   is `3000` (0=unlimited).
 
-- `BUF_MAXTIME`: Max age of stored messages in minutes. The default value is
-  `0` (unlimited).
+- `BUF_MAXTIME`: Max age of stored messages in minutes. The default value is `0`
+  (unlimited).
 
 - `FLUSH_FULL`: Flush collected messages from buffer to a file when one of the
   buffer limits reaches a threshold value. At least one of `BUF_MAXSIZE` or
@@ -129,8 +133,9 @@ If variable's value has an invalid format, the service fails with an error.
 - `HOST_STATE`: Flush collected messages from buffer to a file when the host
   changes its state. This variable must contain a valid path to the D-Bus object
   that provides host's state information. Object shall implement interfaces
-  `xyz.openbmc_project.State.Host` and `xyz.openbmc_project.State.OperatingSystem.Status`.
-  The default value is `/xyz/openbmc_project/state/host0`.
+  `xyz.openbmc_project.State.Host` and
+  `xyz.openbmc_project.State.OperatingSystem.Status`. The default value is
+  `/xyz/openbmc_project/state/host0`.
 
 - `OUT_DIR`: Absolute path to the output directory for log files. The default
   value is `/var/lib/obmc/hostlogs`.
@@ -150,12 +155,14 @@ If variable's value has an invalid format, the service fails with an error.
 Relevant for OpenPOWER based servers, using `ttyVUART0` for console.
 
 File `phosphor-hostlogger_%.bbappend`:
+
 ```
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 SRC_URI_append = " file://ttyVUART0.conf"
 ```
 
 File `phosphor-hostlogger/ttyVUART0.conf`:
+
 ```
 MAX_FILES=0
 ```
@@ -166,12 +173,14 @@ Relevant for x86 based servers: using `ttyS2` for console and
 `/xyz/openbmc_project/state/os` for host state monitoring.
 
 File `phosphor-hostlogger_%.bbappend`:
+
 ```
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 SRC_URI_append = " file://ttyS2.conf"
 ```
 
 File `phosphor-hostlogger/ttyS2.conf`:
+
 ```
 HOST_STATE=/xyz/openbmc_project/state/os
 ```
