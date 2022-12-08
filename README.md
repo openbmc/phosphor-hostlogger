@@ -21,7 +21,7 @@ obmc-console and uses its UNIX domain socket to read the console output.
 
 ### The Buffer Mode
 
-```
+```text
 +-------------+                                       +----------------+
 |    Host     | State  +---------------------+ Event  |   Host Logger  |
 |             |------->|        D-Bus        |------->|                |
@@ -43,7 +43,7 @@ parameters.
 
 ### The Stream Mode
 
-```
+```text
 +-----------+                               +-------------+      +------------+
 |           |                               |             |      |            |
 |   Host    |                               | Host Logger |      |  rsyslog   |
@@ -156,14 +156,14 @@ Relevant for OpenPOWER based servers, using `ttyVUART0` for console.
 
 File `phosphor-hostlogger_%.bbappend`:
 
-```
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
-SRC_URI_append = " file://ttyVUART0.conf"
+```bitbake
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
+SRC_URI:append = " file://ttyVUART0.conf"
 ```
 
 File `phosphor-hostlogger/ttyVUART0.conf`:
 
-```
+```sh
 MAX_FILES=0
 ```
 
@@ -174,14 +174,14 @@ Relevant for x86 based servers: using `ttyS2` for console and
 
 File `phosphor-hostlogger_%.bbappend`:
 
-```
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
-SRC_URI_append = " file://ttyS2.conf"
+```bitbake
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
+SRC_URI:append = " file://ttyS2.conf"
 ```
 
 File `phosphor-hostlogger/ttyS2.conf`:
 
-```
+```sh
 HOST_STATE=/xyz/openbmc_project/state/os
 ```
 
