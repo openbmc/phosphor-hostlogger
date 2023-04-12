@@ -9,7 +9,7 @@ project(
    'cpp_std=c++20',
   ],
   license: 'Apache-2.0',
-  meson_version: '>=0.57.0',
+  meson_version: '>=0.58.0',
 )
 
 # version info from git
@@ -23,9 +23,9 @@ subdir('test')
 
 # install systemd unit template file
 systemd = dependency('systemd')
-systemd_system_unit_dir = systemd.get_pkgconfig_variable(
+systemd_system_unit_dir = systemd.get_variable(
   'systemdsystemunitdir',
-  define_variable: ['prefix', get_option('prefix')],
+  pkgconfig_define: ['prefix', get_option('prefix')],
 )
 configure_file(
   copy: true,
