@@ -38,8 +38,7 @@ using ::testing::Throw;
 struct ConfigInTest
 {
     Config config;
-    ConfigInTest() : config()
-    {}
+    ConfigInTest() : config() {}
 };
 
 class BufferServiceTest : public Test, public ConfigInTest, public BufferService
@@ -56,7 +55,7 @@ class BufferServiceTest : public Test, public ConfigInTest, public BufferService
 
   protected:
     // Set hostConsole firstly read specified data and then read nothing.
-    void setHostConsoleOnce(char const* data, size_t len)
+    void setHostConsoleOnce(const char* data, size_t len)
     {
         EXPECT_CALL(hostConsoleMock, read(_, Le(consoleReadMaxSize)))
             .WillOnce(DoAll(SetArrayArgument<0>(data, data + len), Return(len)))
@@ -104,7 +103,6 @@ TEST_F(BufferServiceTest, ReadConsoleExceptionCaught)
 
 TEST_F(BufferServiceTest, ReadConsoleOk)
 {
-
     setHostConsoleOnce(firstDatagram, strlen(firstDatagram));
     EXPECT_CALL(logBufferMock,
                 append(StrEq(firstDatagram), Eq(strlen(firstDatagram))))

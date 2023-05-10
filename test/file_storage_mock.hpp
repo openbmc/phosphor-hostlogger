@@ -10,7 +10,6 @@
 class FileStorageMock : public FileStorage
 {
   public:
-    FileStorageMock() : FileStorage("/tmp", "fake", -1)
-    {}
+    FileStorageMock() : FileStorage("/tmp", "fake", -1) {}
     MOCK_METHOD(std::string, save, (const LogBuffer& buf), (const override));
 };

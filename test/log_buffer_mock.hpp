@@ -10,8 +10,7 @@
 class LogBufferMock : public LogBuffer
 {
   public:
-    LogBufferMock() : LogBuffer(-1, -1)
-    {}
+    LogBufferMock() : LogBuffer(-1, -1) {}
     MOCK_METHOD(void, append, (const char* data, size_t sz), (override));
     MOCK_METHOD(void, setFullHandler, (std::function<void()> cb), (override));
     MOCK_METHOD(bool, empty, (), (const, override));

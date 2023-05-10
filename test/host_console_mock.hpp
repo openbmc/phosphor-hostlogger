@@ -10,8 +10,7 @@
 class HostConsoleMock : public HostConsole
 {
   public:
-    HostConsoleMock() : HostConsole("")
-    {}
+    HostConsoleMock() : HostConsole("") {}
     MOCK_METHOD(void, connect, (), (override));
     MOCK_METHOD(size_t, read, (char* buf, size_t sz), (const, override));
     // Returns a fixed integer for testing.

@@ -26,8 +26,8 @@ class FileStorageTest : public ::testing::Test
         fs::remove_all(logPath);
     }
 
-    const fs::path logPath =
-        fs::temp_directory_path() / "file_storage_test_out";
+    const fs::path logPath = fs::temp_directory_path() /
+                             "file_storage_test_out";
 };
 
 TEST_F(FileStorageTest, InvalidPath)
