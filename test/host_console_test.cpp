@@ -8,7 +8,7 @@
 
 #include <gtest/gtest.h>
 
-static constexpr char socketPath[] = "\0obmc-console";
+static constexpr char socketPath[] = "\0obmc-console.default";
 
 /**
  * @class HostConsoleTest

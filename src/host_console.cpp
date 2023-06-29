@@ -15,7 +15,7 @@
  * @brief Base path to the console's socket.
  *        See obmc-console for details.
  */
-static constexpr char socketPath[] = "\0obmc-console";
+static constexpr char socketPath[] = "\0obmc-console.default";
 
 HostConsole::HostConsole(const std::string& socketId) :
     socketId(socketId), socketFd(-1)
