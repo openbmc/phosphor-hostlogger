@@ -1,0 +1,8 @@
+Code-Review+2: Artem Senichev <artemsen@gmail.com>
+Code-Review+1: <i.kononenko.e@gmail.com>
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Submitted-by: Patrick Williams <patrick@stwcx.xyz>
+Submitted-at: Thu, 13 Jul 2023 10:20:56 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/phosphor-hostlogger/+/64836
+Project: openbmc/phosphor-hostlogger
+Branch: refs/heads/master
