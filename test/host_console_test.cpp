@@ -8,7 +8,8 @@
 
 #include <gtest/gtest.h>
 
-static constexpr char socketPath[] = "\0obmc-console.default";
+static constexpr char socketPath[] = "\0obmc-console";
+static constexpr std::string defaultSocketId = "default";
 
 /**
  * @class HostConsoleTest
@@ -23,10 +24,14 @@ class HostConsoleTest : public ::testing::Test
         serverSocket = socket(AF_UNIX, SOCK_STREAM, 0);
         ASSERT_NE(serverSocket, -1);
         std::string path(socketPath, socketPath + sizeof(socketPath) - 1);
+        path += '.';
         if (*socketId)
         {
-            path += '.';
             path += socketId;
+        }
+        else
+        {
+            path += defaultSocketId;
         }
         sockaddr_un sa;
         sa.sun_family = AF_UNIX;
