@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "408b7141_d67c4e1d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000936
+      },
+      "writtenOn": "2023-08-03T08:51:54Z",
+      "side": 1,
+      "message": "Konstantin, please take a look, this seems to be fixing a bug in your Ic18ec8ddeb66715fd74c68b0c9e84761c3d42663 .",
+      "revId": "0916db53bf5a00b86fcad87af8aa93e1dd6f5298",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
