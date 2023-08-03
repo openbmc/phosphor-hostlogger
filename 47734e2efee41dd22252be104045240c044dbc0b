@@ -1,0 +1,7 @@
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Code-Review+2: Artem Senichev <artemsen@gmail.com>
+Submitted-by: Paul Fertser <fercerpav@gmail.com>
+Submitted-at: Thu, 03 Aug 2023 10:25:09 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/phosphor-hostlogger/+/65147
+Project: openbmc/phosphor-hostlogger
+Branch: refs/heads/master
