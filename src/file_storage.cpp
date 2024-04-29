@@ -14,8 +14,7 @@ static const std::string fileExt = ".log.gz";
 
 FileStorage::FileStorage(const std::string& path, const std::string& prefix,
                          size_t maxFiles) :
-    outDir(path),
-    filePrefix(prefix), filesLimit(maxFiles)
+    outDir(path), filePrefix(prefix), filesLimit(maxFiles)
 {
     // Check path
     if (!outDir.is_absolute())

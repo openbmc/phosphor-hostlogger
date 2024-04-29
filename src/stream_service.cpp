@@ -15,9 +15,8 @@ using namespace phosphor::logging;
 
 StreamService::StreamService(const char* streamDestination, DbusLoop& dbusLoop,
                              HostConsole& hostConsole) :
-    destinationPath(streamDestination),
-    dbusLoop(&dbusLoop), hostConsole(&hostConsole), outputSocketFd(-1),
-    destination()
+    destinationPath(streamDestination), dbusLoop(&dbusLoop),
+    hostConsole(&hostConsole), outputSocketFd(-1), destination()
 {}
 
 StreamService::~StreamService()

@@ -34,9 +34,8 @@ static const DbusLoop::WatchProperties watchProperties{
 BufferService::BufferService(const Config& config, DbusLoop& dbusLoop,
                              HostConsole& hostConsole, LogBuffer& logBuffer,
                              FileStorage& fileStorage) :
-    config(config),
-    dbusLoop(&dbusLoop), hostConsole(&hostConsole), logBuffer(&logBuffer),
-    fileStorage(&fileStorage)
+    config(config), dbusLoop(&dbusLoop), hostConsole(&hostConsole),
+    logBuffer(&logBuffer), fileStorage(&fileStorage)
 {}
 
 void BufferService::run()
