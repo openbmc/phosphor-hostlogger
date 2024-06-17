@@ -73,7 +73,7 @@ class StreamService : public Service
     DbusLoop* dbusLoop;
     /** @brief Host console connection. */
     HostConsole* hostConsole;
-    /** @brief File descriptor of the ouput socket */
+    /** @brief File descriptor of the output socket */
     int outputSocketFd;
     /** @brief Address of the destination (the rsyslog unix socket) */
     sockaddr_un destination;
