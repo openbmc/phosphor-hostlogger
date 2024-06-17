@@ -59,7 +59,7 @@ parameters.
 
 The service in stream mode forwards the byte stream into rsyslog via the
 imuxsock module. The log is persisted via the omfile module as soon as
-collected. It makes Host Logger leverage exsisting tools (rsyslog and
+collected. It makes Host Logger leverage existing tools (rsyslog and
 logrotate). It also fits in the Redfish LogService and EventService architecture
 in OpenBMC.
 
