@@ -68,11 +68,11 @@ class StreamServiceTest : public Test, public StreamService
         sa.sun_family = AF_UNIX;
         memcpy(sa.sun_path, socketPath, sizeof(socketPath) - 1);
         sa.sun_path[sizeof(socketPath) - 1] = '\0';
-        const socklen_t len = sizeof(sa) - sizeof(sa.sun_path) +
-                              sizeof(socketPath) - 1;
-        ASSERT_NE(
-            bind(serverSocket, reinterpret_cast<const sockaddr*>(&sa), len),
-            -1);
+        const socklen_t len =
+            sizeof(sa) - sizeof(sa.sun_path) + sizeof(socketPath) - 1;
+        ASSERT_NE(bind(serverSocket, reinterpret_cast<const sockaddr*>(&sa),
+                       len),
+                  -1);
     }
 
     // Set hostConsole firstly read specified data and then read nothing.

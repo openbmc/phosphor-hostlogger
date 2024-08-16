@@ -37,9 +37,9 @@ class HostConsoleTest : public ::testing::Test
         sa.sun_family = AF_UNIX;
         memcpy(&sa.sun_path, path.c_str(), path.length());
         const socklen_t len = sizeof(sa) - sizeof(sa.sun_path) + path.length();
-        ASSERT_NE(
-            bind(serverSocket, reinterpret_cast<const sockaddr*>(&sa), len),
-            -1);
+        ASSERT_NE(bind(serverSocket, reinterpret_cast<const sockaddr*>(&sa),
+                       len),
+                  -1);
         ASSERT_NE(listen(serverSocket, 1), -1);
     }
 

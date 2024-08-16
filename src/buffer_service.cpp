@@ -34,9 +34,8 @@ static const DbusLoop::WatchProperties watchProperties{
 BufferService::BufferService(const Config& config, DbusLoop& dbusLoop,
                              HostConsole& hostConsole, LogBuffer& logBuffer,
                              FileStorage& fileStorage) :
-    config(config),
-    dbusLoop(&dbusLoop), hostConsole(&hostConsole), logBuffer(&logBuffer),
-    fileStorage(&fileStorage)
+    config(config), dbusLoop(&dbusLoop), hostConsole(&hostConsole),
+    logBuffer(&logBuffer), fileStorage(&fileStorage)
 {}
 
 void BufferService::run()
@@ -68,14 +67,14 @@ void BufferService::run()
         log<level::WARNING>("Automatic flush disabled");
     }
 
-    log<level::DEBUG>("Initialization complete",
-                      entry("SocketId=%s", config.socketId),
-                      entry("BufMaxSize=%lu", config.bufMaxSize),
-                      entry("BufMaxTime=%lu", config.bufMaxTime),
-                      entry("BufFlushFull=%s", config.bufFlushFull ? "y" : "n"),
-                      entry("HostState=%s", config.hostState),
-                      entry("OutDir=%s", config.outDir),
-                      entry("MaxFiles=%lu", config.maxFiles));
+    log<level::DEBUG>(
+        "Initialization complete", entry("SocketId=%s", config.socketId),
+        entry("BufMaxSize=%lu", config.bufMaxSize),
+        entry("BufMaxTime=%lu", config.bufMaxTime),
+        entry("BufFlushFull=%s", config.bufFlushFull ? "y" : "n"),
+        entry("HostState=%s", config.hostState),
+        entry("OutDir=%s", config.outDir),
+        entry("MaxFiles=%lu", config.maxFiles));
 
     // Run D-Bus event loop
     const int rc = dbusLoop->run();

@@ -14,8 +14,7 @@ static const std::string fileExt = ".log.gz";
 
 FileStorage::FileStorage(const std::string& path, const std::string& prefix,
                          size_t maxFiles) :
-    outDir(path),
-    filePrefix(prefix), filesLimit(maxFiles)
+    outDir(path), filePrefix(prefix), filesLimit(maxFiles)
 {
     // Check path
     if (!outDir.is_absolute())
@@ -110,9 +109,9 @@ void FileStorage::rotate() const
         }
         const std::string fileName = file.path().filename();
 
-        const size_t minFileNameLen = filePrefix.length() +
-                                      15 + // time stamp YYYYMMDD_HHMMSS
-                                      fileExt.length();
+        const size_t minFileNameLen =
+            filePrefix.length() + 15 + // time stamp YYYYMMDD_HHMMSS
+            fileExt.length();
         if (fileName.length() < minFileNameLen)
         {
             continue;
