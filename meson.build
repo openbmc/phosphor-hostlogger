@@ -51,7 +51,7 @@ executable(
     'src/zlib_file.cpp',
   ],
   dependencies: [
-    systemd,
+    dependency('libsystemd'),
     dependency('phosphor-logging'),
     dependency('zlib'),
   ],
