@@ -32,21 +32,13 @@
 # data within them will be kept sorted.
 
 owners:
-- a.amelkin@yadro.com
-- a.senichev@yadro.com
+- patrick@stwcx.xyz
 
 reviewers:
-- a.filippov@yadro.com
 
 matchers:
 
 openbmc:
-- name: Alexander Amelkin
-  email: a.amelkin@yadro.com
-  discord: Fire5pirit
-- name: Alexander Filippov
-  email: a.filippov@yadro.com
-  discord: NA
-- name: Artem Senichev
-  email: a.senichev@yadro.com
-  discord: artemsen
+- name: Patrick Williams
+  email: patrick@stwcx.xyz
+  discord: stwcx
