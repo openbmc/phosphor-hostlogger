@@ -50,7 +50,7 @@ void ZlibFile::write(const tm& timeStamp, const std::string& message) const
                   timeStamp.tm_year + 1900, timeStamp.tm_mon + 1,
                   timeStamp.tm_mday, timeStamp.tm_hour, timeStamp.tm_min,
                   timeStamp.tm_sec, timeStamp.tm_gmtoff / (60 * 60),
-                  abs(timeStamp.tm_gmtoff % (60 * 60)) / 60);
+                  labs(timeStamp.tm_gmtoff % (60 * 60)) / 60);
 
     if (rc <= 0)
     {
