@@ -1,0 +1,8 @@
+Code-Review+2: Patrick Williams <patrick@stwcx.xyz>
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Submitted-by: Patrick Williams <patrick@stwcx.xyz>
+Submitted-at: Wed, 18 Jun 2025 03:09:50 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/phosphor-hostlogger/+/76890
+Comments-Total: 2
+Project: openbmc/phosphor-hostlogger
+Branch: refs/heads/master
