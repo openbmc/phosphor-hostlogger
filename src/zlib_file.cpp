@@ -28,11 +28,11 @@ void ZlibFile::close()
     if (fd != Z_NULL)
     {
         const int rc = gzclose_w(fd);
+        fd = Z_NULL;
         if (rc != Z_OK)
         {
-            throw ZlibException(ZlibException::close, rc, fd, fileName);
+            throw ZlibException(ZlibException::close, rc, Z_NULL, fileName);
         }
-        fd = Z_NULL;
         fileName.clear();
     }
 }
